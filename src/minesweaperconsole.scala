@@ -1,11 +1,18 @@
 import scala.io.StdIn.readLine
+import scala.util.Random
 
 object minesweaperconsole extends App{
-  var diff : Int = difficulties()
-  var game : Array[Array[Int]] = Array.fill(diff, diff)(0)
+  var diff : Int = 10; //difficulties()
+  var game : Array[Array[Case]] = Array.ofDim(diff, diff)
   var tryX : Int = 0
   var tryY : Int = 0
+
+  var numOfMine:Int = 10;
+
+  InitGame();
+
   printingGameBoard()
+
   while(!winning_condition()){
     println("where do you want to play")
     print("X : ")
@@ -15,7 +22,7 @@ object minesweaperconsole extends App{
     if(tryX > diff || tryY > diff){
       println("error")
     }else{
-      playing(tryX-1, tryY-1)
+      //playing(tryX-1, tryY-1)
       printingGameBoard()
     }
   }
@@ -40,17 +47,70 @@ object minesweaperconsole extends App{
     // TODO
     return winning
   }
-  def playing(x : Int, y : Int) : Unit = {
+  /*def playing(x : Int, y : Int) : Unit = {
     game(x)(y) = 1
-  }
+  }*/
 
   def printingGameBoard() : Unit = {
     for(i <- 0 until diff){
       for(j <- 0 until diff){
-        print(game(i)(j))
+        print(game(i)(j).toString() + "  ")
       }
       print("\n")
     }
   }
+
+
+
+
+
+  def InitGame(): Unit = {
+
+
+    for(i <- 0 until game.length){
+      for (j <- 0 until game(i).length) {
+        game(i)(j) = new Case();
+      }
+    }
+
+    for(r <- 1 to numOfMine){
+
+      var randomX = Random.nextInt(diff)
+      var randomY = Random.nextInt(diff)
+
+      if(!game(randomX)(randomY).isMine())
+        game(randomX)(randomY).setMine()
+      else
+        setMine()
+
+    }
+
+    for (i <- 0 until game.length) {
+      for (j <- 0 until game(i).length) {
+        game(i)(j).CalculateAdjacentMine(i, j, game)
+      }
+    }
+
+  }
+
+  def setMine(): Unit = {
+
+    var randomX = Random.nextInt(diff)
+    var randomY = Random.nextInt(diff)
+
+    if (!game(randomX)(randomY).isMine())
+      game(randomX)(randomY).setMine()
+    else
+      setMine()
+
+  }
+
+
+
+
+
+
+
+
 }
 
