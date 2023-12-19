@@ -107,10 +107,5 @@ object minesweaperconsole extends App{
 
 
 
-
-
-
-
-
 }
 
