@@ -60,6 +60,10 @@ class Case(){
 
   override def toString(): String = {
 
+
+    if (flag)
+      return "!"
+
     if(isHide)
       return "X"
 

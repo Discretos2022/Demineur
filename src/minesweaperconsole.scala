@@ -39,6 +39,7 @@ object minesweaperconsole extends App{
     }
     return diff
   }
+
   def ending_condition() : Boolean = {
     var winning : Boolean = false
     if(perdu){
@@ -50,12 +51,22 @@ object minesweaperconsole extends App{
     }
     return winning
   }
+
   def playing(x : Int, y : Int) : Unit = {
     game(x)(y).isHide = false
     if(game(x)(y).isMine()){
       perdu = true
       ending_condition()
     }
+    else{
+
+      if(game(x)(y).numOfAdjacentMine == 0)
+        DiscoverAdjacentCase(x, y);
+
+    }
+
+
+
   }
 
   def printingGameBoard() : Unit = {
@@ -66,6 +77,32 @@ object minesweaperconsole extends App{
       print("\n")
     }
   }
+
+
+  def DiscoverAdjacentCase(x: Int, y:Int): Unit = {
+
+    for(i <- x - 1 to x + 1) {
+      for (j <- y - 1 to y + 1) {
+
+        if(i >= 0 && i < game.length && j >= 0 && j < game(0).length) {
+
+          if(game(i)(j).isHide){
+            if (game(i)(j).numOfAdjacentMine == 0) {
+              game(i)(j).isHide = false;
+              DiscoverAdjacentCase(i, j)
+            }
+            else if(game(i)(j).numOfAdjacentMine != 0) {
+              game(i)(j).isHide = false;
+            }
+          }
+
+        }
+
+      }
+    }
+
+  }
+
 
   def InitGame(): Unit = {
 
@@ -105,4 +142,5 @@ object minesweaperconsole extends App{
       setMine()
 
   }
+
 }
