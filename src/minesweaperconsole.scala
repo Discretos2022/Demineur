@@ -6,14 +6,14 @@ object minesweaperconsole extends App{
   var game : Array[Array[Case]] = Array.ofDim(diff, diff)
   var tryX : Int = 0
   var tryY : Int = 0
-
+  var perdu : Boolean = false
   var numOfMine:Int = 10;
 
   InitGame();
 
   printingGameBoard()
 
-  while(!winning_condition()){
+  while(!perdu){
     println("where do you want to play")
     print("X : ")
     tryX = readLine().toInt
@@ -22,13 +22,10 @@ object minesweaperconsole extends App{
     if(tryX > diff || tryY > diff){
       println("error")
     }else{
-      //playing(tryX-1, tryY-1)
+      playing(tryX-1, tryY-1)
       printingGameBoard()
     }
   }
-
-
-
 
   def difficulties(): Int = {
     println("What difficulties do you want? 0 : baby, 1 : easy, 2 : medium, 3 : hard, 4 : hardcore")
@@ -42,14 +39,24 @@ object minesweaperconsole extends App{
     }
     return diff
   }
-  def winning_condition() : Boolean = {
+  def ending_condition() : Boolean = {
     var winning : Boolean = false
-    // TODO
+    if(perdu){
+      winning = false
+      println("perdu")
+    }else{
+      winning = true
+      println("gagné")
+    }
     return winning
   }
-  /*def playing(x : Int, y : Int) : Unit = {
-    game(x)(y) = 1
-  }*/
+  def playing(x : Int, y : Int) : Unit = {
+    game(x)(y).isHide = false
+    if(game(x)(y).isMine()){
+      perdu = true
+      ending_condition()
+    }
+  }
 
   def printingGameBoard() : Unit = {
     for(i <- 0 until diff){
@@ -60,12 +67,7 @@ object minesweaperconsole extends App{
     }
   }
 
-
-
-
-
   def InitGame(): Unit = {
-
 
     for(i <- 0 until game.length){
       for (j <- 0 until game(i).length) {
@@ -90,7 +92,6 @@ object minesweaperconsole extends App{
         game(i)(j).CalculateAdjacentMine(i, j, game)
       }
     }
-
   }
 
   def setMine(): Unit = {
@@ -104,13 +105,4 @@ object minesweaperconsole extends App{
       setMine()
 
   }
-
-
-
-
-
-
-
-
 }
-

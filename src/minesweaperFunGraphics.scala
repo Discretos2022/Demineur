@@ -13,6 +13,7 @@ object minesweaperFunGraphics extends App{
       val posX = event.getX
       val posY = event.getY
       val click = event.getButton //1 : Click gauche, 3 : click droit
+
     }
   })
   window.drawString(WIDTH/2 -150, 100, "WELCOME TO MINESWEAPER", Color.RED, 20)
