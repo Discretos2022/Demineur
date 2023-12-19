@@ -60,6 +60,9 @@ class Case(){
 
   override def toString(): String = {
 
+    if(isHide)
+      return "X"
+
     if(Mine)
       return "▀"
 
