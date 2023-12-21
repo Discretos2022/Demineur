@@ -17,8 +17,9 @@ object MinesweeperFunGraphics extends App{
       val posY = event.getY
       val click = event.getButton //1 : Click gauche, 3 : click droit
     }
+  }
   window.addMouseListener(mouse)
-  Menu.display(window)
+  //Menu.display(window)
 
   def difficulties(): Int = {
     //diff
@@ -29,5 +30,35 @@ object MinesweeperFunGraphics extends App{
   if(MouseEvent.MOUSE_CLICKED == 1){
     print("gauche")
   }
+
+
+  gameLoop();
+
+
+  def gameLoop(): Unit = {
+
+    window.displayFPS(true)
+
+    GameState.State match {
+
+      case GameState.Menu =>{
+
+        //Menu.update();
+        Menu.display(window);
+
+      }
+
+      case GameState.Game => {
+
+        // TODO : game.update();
+        // TODO : game.display(window);
+
+      }
+
+    }
+
+
   }
+
+
 }
