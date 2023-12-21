@@ -1,8 +1,8 @@
-import scala.io.StdIn.readLine
+import scala.io.StdIn.{readInt, readLine}
 import scala.util.Random
 
 object minesweaperconsole extends App{
-  var diff : Int = 10; //difficulties()
+  var diff : Int = difficulties()
   var game : Array[Array[Case]] = Array.ofDim(diff, diff)
   var tryX : Int = 0
   var tryY : Int = 0
@@ -22,7 +22,15 @@ object minesweaperconsole extends App{
     if(tryX > diff || tryY > diff){
       println("error")
     }else{
-      playing(tryX-1, tryY-1)
+      println("flag? 1 : y, 0 : n")
+      var flag: Int = readInt()
+
+      if (flag == 1){
+        playing(tryX-1, tryY-1, true)
+      }else{
+        playing(tryX-1, tryY-1)
+      }
+
       printingGameBoard()
     }
   }
@@ -52,21 +60,19 @@ object minesweaperconsole extends App{
     return winning
   }
 
-  def playing(x : Int, y : Int) : Unit = {
+  def playing(x : Int, y : Int, f : Boolean = false) : Unit = {
     game(x)(y).isHide = false
-    if(game(x)(y).isMine()){
+    if(game(x)(y).isMine() && !f){
       perdu = true
       ending_condition()
     }
     else{
-
-      if(game(x)(y).numOfAdjacentMine == 0)
+      if(f){
+        game(x)(y).flag
+      }
+      else if(game(x)(y).numOfAdjacentMine == 0)
         DiscoverAdjacentCase(x, y);
-
     }
-
-
-
   }
 
   def printingGameBoard() : Unit = {

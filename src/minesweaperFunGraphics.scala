@@ -4,7 +4,7 @@ import java.awt.Color
 import java.awt.event.{MouseAdapter, MouseEvent}
 
 object minesweaperFunGraphics extends App{
-
+  val taille : Int = 15
   val WIDTH : Int = 800
   val HEIGHT: Int = 600
   val window : FunGraphics = new FunGraphics(WIDTH, HEIGHT, "TEST 1.0 - Minesweaper")
@@ -18,16 +18,14 @@ object minesweaperFunGraphics extends App{
 
     }
   })
-
   window.drawString(WIDTH/2 -150, 100, "WELCOME TO MINESWEAPER", Color.RED, 20)
-
-  difficulties()
-
+  var diff = 20 //difficulties()
+  var ratio : Double = 1
+  //printingGameBoard()
   def difficulties(): Int = {
     //diff
     return 1
   }
-
   def ending() : Unit={
   }
 
