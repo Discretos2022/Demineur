@@ -15,7 +15,6 @@ object Input {
     if (e.getButton == 3 && key == Right)
       return true;
     return false;
-
   }
 
 }

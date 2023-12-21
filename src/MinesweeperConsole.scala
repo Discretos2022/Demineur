@@ -1,7 +1,8 @@
 import scala.io.StdIn.{readInt, readLine}
 import scala.util.Random
 
-object minesweaperconsole extends App{
+object MinesweeperConsole extends App{
+  //variable
   var diff : Int = difficulties()
   var game : Array[Array[Case]] = Array.ofDim(diff, diff)
   var tryX : Int = 0
@@ -10,7 +11,6 @@ object minesweaperconsole extends App{
   var numOfMine:Int = 10;
 
   InitGame();
-
   printingGameBoard()
 
   while(!perdu){
