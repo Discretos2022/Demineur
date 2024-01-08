@@ -12,17 +12,23 @@ object Menu {
   val WIDTH : Int = 128
   val HEIGHT: Int = 32
   val posy : Int = 200
+  var diff : Int = 0
   def update(mouseX : Int, mouseY : Int, bouton : Int): Int = {
     if(bouton == 1){
       print("click")
       if(isIn(mouseX, mouseY, 120, posy, WIDTH, HEIGHT)){
         //easy
-        print("ok")
+        diff = 10
       }else if(isIn(mouseX, mouseY, 310, posy, WIDTH, HEIGHT)){
         //medium
+        diff = 25
       }else if(isIn(mouseX, mouseY, 490, posy, WIDTH, HEIGHT)) {
-        //diff
-        }
+        //hard
+        diff = 50
+      }else if(isIn(mouseX, mouseY, 670, posy, WIDTH, HEIGHT)){
+        //hardcore
+        diff = 100
+      }
     }
     return 0
   }
