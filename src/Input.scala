@@ -10,7 +10,6 @@ object Input {
   var cursorX = 0;
   var cursorY = 0;
 
-
   var mouse: MouseAdapter = new MouseAdapter() {
     override def mouseClicked(e: MouseEvent): Unit = {
 
@@ -20,7 +19,6 @@ object Input {
       GameState.State match {
 
         case GameState.Menu => {
-
 
           if (isIn(mouseX, mouseY, 120, posy, WIDTH, HEIGHT)) {
             //easy
@@ -39,7 +37,9 @@ object Input {
             diff = 4
             GameState.State = GameState.Game;
           }
+          Game.InitGame(diff)
         }
+        case _ => GameState.State = GameState.Game
       }
     }
 
@@ -48,7 +48,7 @@ object Input {
 
 
   var mouseMotion: MouseMotionListener = new MouseMotionListener {
-    override def mouseDragged(e: MouseEvent): Unit = ???
+    override def mouseDragged(e: MouseEvent): Unit = {}
 
     override def mouseMoved(e: MouseEvent): Unit = {
 

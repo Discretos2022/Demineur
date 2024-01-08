@@ -3,27 +3,22 @@ import hevs.graphics.utils.GraphicsBitmap
 
 import java.awt.{Color, Cursor, Point, Toolkit}
 import java.awt.event.{MouseAdapter, MouseEvent}
+import javax.sound.sampled.AudioSystem
 
 object MinesweeperFunGraphics extends App{
   //variable
   val WIDTH : Int = 800
   val HEIGHT: Int = 600
   val window : FunGraphics = new FunGraphics(WIDTH, HEIGHT, "TEST 1.0 - Minesweeper", false)
-  var taille : Int = 15
 
   var cursorImg:GraphicsBitmap = new GraphicsBitmap("/cursor.png")
   var tk:Toolkit = window.mainFrame.getToolkit();
   var transparent:Cursor = tk.createCustomCursor(tk.getImage(""), new Point(), "trans");
   window.mainFrame.setCursor(transparent);
 
-
   window.addMouseListener(Input.mouse)
   window.addMouseMotionListener(Input.mouseMotion)
   window.setKeyManager(Input.keyboard)
-
-
-  def ending() : Unit = {
-  }
 
   while(true)
     gameLoop();
@@ -45,8 +40,7 @@ object MinesweeperFunGraphics extends App{
       case GameState.Game => {
 
           // TODO : game.update();
-          Game.display(window);
-
+          Game.display(window)
         }
       }
 

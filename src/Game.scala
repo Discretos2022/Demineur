@@ -1,3 +1,4 @@
+import MinesweeperFunGraphics.{HEIGHT, WIDTH}
 import hevs.graphics.FunGraphics
 import hevs.graphics.utils.GraphicsBitmap
 
@@ -45,30 +46,21 @@ object Game {
     return 0
   }
 
+
   def display(wind: FunGraphics): Unit = {
-  wind.drawString(50, 50, s"number of mine left : $mine", Color.darkGray, 20)
+    wind.drawString(50, 50, s"number of mine left : $mine", Color.darkGray, 20)
     for(i : Int <- gameBoard.indices;
         j : Int <- gameBoard(0).indices){
-      if(gameBoard(i)(j).isHide)
-      wind.drawTransformedPicture(((800-caseSide*scale*gameBoard.length)/2 + (caseSide*scale)/2 + i *scale*16).toInt,
-                                  ((600-caseSide*scale*gameBoard(0).length)/2 + caseSide/2 + j *scale* 16).toInt,
-                             0,
-                                    scale,
-                                    numberedCase(0))
+      var x : Int = ((WIDTH-caseSide*scale*gameBoard.length)/2 + (caseSide*scale)/2 + i *scale*16).toInt
+      var y : Int = ((HEIGHT-caseSide*scale*gameBoard(0).length)/2 + caseSide*scale/2 + j *scale* 16).toInt
+      var img : GraphicsBitmap = numberedCase(gameBoard(i)(j).numOfAdjacentMine)
+      if(gameBoard(i)(j).isHide) {
+         img = numberedCase(0)
+      }
       else if(gameBoard(i)(j).flag){
-        wind.drawTransformedPicture(((800 - caseSide * scale * gameBoard.length) / 2 + (caseSide * scale) / 2 + i * scale * 16).toInt,
-          ((600 - caseSide * scale * gameBoard(0).length) / 2 + caseSide / 2 + j * scale * 16).toInt,
-          0,
-          scale,
-          numberedCase(0))
+        img = numberedCase(10)
       }
-      else{
-        wind.drawTransformedPicture(((800 - caseSide * scale * gameBoard.length) / 2 + (caseSide * scale) / 2 + i * scale * 16).toInt,
-          ((600 - caseSide * scale * gameBoard(0).length) / 2 + caseSide / 2 + j * scale * 16).toInt,
-          0,
-          scale,
-          numberedCase(gameBoard(i)(j).numOfAdjacentMine))
-      }
+      wind.drawTransformedPicture(x, y, 0, scale, img)
     }
   }
 }
