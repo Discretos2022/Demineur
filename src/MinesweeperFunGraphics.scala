@@ -5,11 +5,11 @@ import java.awt.event.{MouseAdapter, MouseEvent}
 
 object MinesweeperFunGraphics extends App{
   //variable
-  val taille : Int = 15
   val WIDTH : Int = 800
   val HEIGHT: Int = 600
   val window : FunGraphics = new FunGraphics(WIDTH, HEIGHT, "TEST 1.0 - Minesweeper", false)
 
+  var taille : Int = 15
   var mouse: MouseAdapter = new MouseAdapter() {
     override def mouseClicked(e: MouseEvent): Unit = {
       val posX = e.getX
@@ -20,11 +20,6 @@ object MinesweeperFunGraphics extends App{
     }
   }
   //Menu.display(window)
-
-  def difficulties(): Int = {
-    //diff
-    return 1
-  }
   def ending() : Unit={
   }
 
@@ -38,7 +33,8 @@ object MinesweeperFunGraphics extends App{
 
       case GameState.Menu =>{
         window.addMouseListener(mouse)
-
+        taille = Menu.diff
+        println(taille)
         Menu.display(window)
 
       }

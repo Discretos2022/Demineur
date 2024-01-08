@@ -13,7 +13,7 @@ object Menu {
   val HEIGHT: Int = 32
   val posy : Int = 200
   var diff : Int = 0
-  def update(mouseX : Int, mouseY : Int, bouton : Int): Int = {
+  def update(mouseX : Int, mouseY : Int, bouton : Int): Unit = {
     if(bouton == 1){
       print("click")
       if(isIn(mouseX, mouseY, 120, posy, WIDTH, HEIGHT)){
@@ -30,7 +30,7 @@ object Menu {
         diff = 100
       }
     }
-    return 0
+    GameState.State = GameState.Game
   }
   def display(wind  : FunGraphics): Unit = {
     wind.drawTransformedPicture(400, 100, 0, 3,  nameBanner)
