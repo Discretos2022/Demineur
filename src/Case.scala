@@ -4,7 +4,18 @@ class Case(){
 
   var isHide:Boolean = true;
   var numOfAdjacentMine:Int = 0;
+  var numOfAdjacentMine2:Int = 0;
   var flag:Boolean = false;
+  val DIRECTIONS: Array[Array[Int]] = Array(
+    Array(-1, -1), // haut gauche
+    Array(-1, 0), // haut
+    Array(-1, 1), // haut droite
+    Array(0, -1), // gauche
+    Array(0, 1), // droite
+    Array(1, -1), // bas gauche
+    Array(1, 0), // bas
+    Array(1, 1) // bas droite
+  )
 
 
   def setMine(): Unit = {
@@ -19,6 +30,17 @@ class Case(){
 
     if(!Mine){
 
+      for (direction: Array[Int] <- DIRECTIONS){
+        var ni: Int = i + direction(0)
+        var nj: Int = j + direction(1)
+        if (0 <= ni && ni < t.length && 0 <= nj && nj < t.length){
+          if (t(ni)(nj).Mine){
+            numOfAdjacentMine += 1
+          }
+        }
+
+      }
+      /*
       if(i + 1 < t.length)
         if(t(i + 1)(j).Mine)
           numOfAdjacentMine += 1;
@@ -51,6 +73,7 @@ class Case(){
         if (t(i + 1)(j + 1).Mine)
           numOfAdjacentMine += 1;
 
+      */
     }
   }
 
@@ -59,8 +82,6 @@ class Case(){
   }
 
   override def toString(): String = {
-
-
     if (flag)
       return "!"
 

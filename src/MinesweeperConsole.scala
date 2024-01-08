@@ -93,12 +93,9 @@ object MinesweeperConsole extends App{
         if(i >= 0 && i < game.length && j >= 0 && j < game(0).length) {
 
           if(game(i)(j).isHide){
+            game(i)(j).isHide = false;
             if (game(i)(j).numOfAdjacentMine == 0) {
-              game(i)(j).isHide = false;
               DiscoverAdjacentCase(i, j)
-            }
-            else if(game(i)(j).numOfAdjacentMine != 0) {
-              game(i)(j).isHide = false;
             }
           }
 

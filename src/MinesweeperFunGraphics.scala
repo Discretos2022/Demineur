@@ -9,13 +9,15 @@ object MinesweeperFunGraphics extends App{
   val WIDTH : Int = 800
   val HEIGHT: Int = 600
   val window : FunGraphics = new FunGraphics(WIDTH, HEIGHT, "TEST 1.0 - Minesweaper", false)
+  var posX : Int = 0
+  var posY : Int = 0
+  var bouton : Int = 0
 
   var mouse : MouseAdapter = new MouseAdapter() {
     override def mouseClicked(e: MouseEvent): Unit = {
-      val event = e
-      val posX = event.getX
-      val posY = event.getY
-      val click = event.getButton //1 : Click gauche, 3 : click droit
+       posX = e.getX
+       posY = e.getY
+       bouton = e.getButton //1 : Click gauche, 3 : click droit
     }
   }
   window.addMouseListener(mouse)
@@ -26,9 +28,6 @@ object MinesweeperFunGraphics extends App{
     return 1
   }
   def ending() : Unit={
-  }
-  if(MouseEvent.MOUSE_CLICKED == 1){
-    print("gauche")
   }
 
 
@@ -42,23 +41,17 @@ object MinesweeperFunGraphics extends App{
     GameState.State match {
 
       case GameState.Menu =>{
-
-        //Menu.update();
+        print(posX)
+        Menu.update(posX, posY, bouton);
         Menu.display(window);
 
       }
-
       case GameState.Game => {
 
         // TODO : game.update();
         // TODO : game.display(window);
 
       }
-
     }
-
-
   }
-
-
 }
