@@ -14,23 +14,9 @@ object Menu {
   val posy : Int = 200
   var diff : Int = 0
   def update(mouseX : Int, mouseY : Int, bouton : Int): Unit = {
-    if(bouton == 1){
-      print("click")
-      if(isIn(mouseX, mouseY, 120, posy, WIDTH, HEIGHT)){
-        //easy
-        diff = 9
-      }else if(isIn(mouseX, mouseY, 310, posy, WIDTH, HEIGHT)){
-        //medium
-        diff = 25
-      }else if(isIn(mouseX, mouseY, 490, posy, WIDTH, HEIGHT)) {
-        //hard
-        diff = 50
-      }else if(isIn(mouseX, mouseY, 670, posy, WIDTH, HEIGHT)){
-        //hardcore
-        diff = 100
-      }
-    }
-    GameState.State = GameState.Game
+
+
+
   }
   def display(wind  : FunGraphics): Unit = {
     wind.drawTransformedPicture(400, 100, 0, 3,  nameBanner)
