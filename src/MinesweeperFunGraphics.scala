@@ -8,8 +8,8 @@ object MinesweeperFunGraphics extends App{
   val WIDTH : Int = 800
   val HEIGHT: Int = 600
   val window : FunGraphics = new FunGraphics(WIDTH, HEIGHT, "TEST 1.0 - Minesweeper", false)
-
   var taille : Int = 15
+
   var mouse: MouseAdapter = new MouseAdapter() {
     override def mouseClicked(e: MouseEvent): Unit = {
       val posX = e.getX
@@ -19,6 +19,7 @@ object MinesweeperFunGraphics extends App{
       Menu.update(posX, posY, bouton)
     }
   }
+
   //Menu.display(window)
   def ending() : Unit={
   }

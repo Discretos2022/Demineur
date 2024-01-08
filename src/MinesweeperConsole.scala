@@ -1,4 +1,3 @@
-import MinesweeperFunGraphics.difficulties
 
 import scala.io.StdIn.{readInt, readLine}
 import scala.util.Random
@@ -100,12 +99,9 @@ object MinesweeperConsole extends App{
               DiscoverAdjacentCase(i, j)
             }
           }
-
         }
-
       }
     }
-
   }
 
 
@@ -119,8 +115,8 @@ object MinesweeperConsole extends App{
     if (X > diff || Y > diff)
       println("error")
 
-    for(i <- 0 until game.length){
-      for (j <- 0 until game(i).length) {
+    for(i <- game.indices){
+      for (j <- game(i).indices) {
         game(i)(j) = new Case();
       }
     }
@@ -137,8 +133,8 @@ object MinesweeperConsole extends App{
 
     }
 
-    for (i <- 0 until game.length) {
-      for (j <- 0 until game(i).length) {
+    for (i <- game.indices) {
+      for (j <- game(i).indices) {
         game(i)(j).CalculateAdjacentMine(i, j, game)
       }
     }

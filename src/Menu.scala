@@ -18,7 +18,7 @@ object Menu {
       print("click")
       if(isIn(mouseX, mouseY, 120, posy, WIDTH, HEIGHT)){
         //easy
-        diff = 10
+        diff = 9
       }else if(isIn(mouseX, mouseY, 310, posy, WIDTH, HEIGHT)){
         //medium
         diff = 25

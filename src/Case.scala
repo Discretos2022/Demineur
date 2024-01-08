@@ -4,7 +4,6 @@ class Case(){
 
   var isHide:Boolean = true;
   var numOfAdjacentMine:Int = 0;
-  var numOfAdjacentMine2:Int = 0;
   var flag:Boolean = false;
   val DIRECTIONS: Array[Array[Int]] = Array(
     Array(-1, -1), // haut gauche
