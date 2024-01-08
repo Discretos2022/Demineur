@@ -10,6 +10,9 @@ object MinesweeperFunGraphics extends App{
   val window : FunGraphics = new FunGraphics(WIDTH, HEIGHT, "TEST 1.0 - Minesweeper", false)
   var taille : Int = 15
 
+  var cursorX = 0;
+  var cursorY = 0;
+
   window.addMouseListener(Input.mouse)
   window.setKeyManager(Input.keyboard)
 
