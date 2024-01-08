@@ -10,6 +10,9 @@ object MinesweeperFunGraphics extends App{
   val window : FunGraphics = new FunGraphics(WIDTH, HEIGHT, "TEST 1.0 - Minesweeper", false)
   var taille : Int = 15
 
+  window.addMouseListener(Input.mouse)
+  window.setKeyManager(Input.keyboard)
+
   var mouse: MouseAdapter = new MouseAdapter() {
     override def mouseClicked(e: MouseEvent): Unit = {
       val posX = e.getX
@@ -19,32 +22,38 @@ object MinesweeperFunGraphics extends App{
       Menu.update(posX, posY, bouton)
     }
   }
-
   //Menu.display(window)
   def ending() : Unit={
   }
 
-  gameLoop();
+  while(true)
+    gameLoop();
 
   def gameLoop(): Unit = {
 
-    window.displayFPS(true)
+    window.frontBuffer.synchronized{
 
-    GameState.State match {
+      window.clear()
+      window.displayFPS(true)
 
-      case GameState.Menu =>{
-        window.addMouseListener(mouse)
-        taille = Menu.diff
-        println(taille)
-        Menu.display(window)
+      GameState.State match {
+
+        case GameState.Menu => {
+
+          Menu.display(window)
 
       }
       case GameState.Game => {
 
-        // TODO : game.update();
-        // TODO : game.display(window);
+          // TODO : game.update();
+          // TODO : game.display(window);
 
+        }
       }
+
     }
+
+    window.syncGameLogic(60)
+
   }
 }
