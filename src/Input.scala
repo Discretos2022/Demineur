@@ -1,17 +1,14 @@
 import Menu.{HEIGHT, WIDTH, diff, isIn, posy}
 
-import java.awt.event.{KeyAdapter, KeyEvent, MouseAdapter, MouseEvent}
+import java.awt.event.{KeyAdapter, KeyEvent, MouseAdapter, MouseEvent, MouseMotionListener}
 
 object Input {
 
-  val Right:String = "Right"
-  val Left:String = "Left"
-  val Middle:String = "Middle"
+  var posX: Int = 0;
+  var posY: Int = 0;
 
-  var posX:Int = 0;
-  var posY:Int = 0;
-  var leftButton:Boolean = false;
-  var oldButtonState:Int = 0;
+  var cursorX = 0;
+  var cursorY = 0;
 
 
   var mouse: MouseAdapter = new MouseAdapter() {
@@ -21,8 +18,6 @@ object Input {
       var mouseY = e.getY;
 
       GameState.State match {
-      }
-      GameState.State match{
 
         case GameState.Menu => {
 
@@ -47,13 +42,21 @@ object Input {
         }
       }
     }
-    override def mouseDragged(e: MouseEvent): Unit = {
 
-      MinesweeperFunGraphics.cursorX = e.getX
-      MinesweeperFunGraphics.cursorY = e.getY
+
+  }
+
+
+  var mouseMotion: MouseMotionListener = new MouseMotionListener {
+    override def mouseDragged(e: MouseEvent): Unit = ???
+
+    override def mouseMoved(e: MouseEvent): Unit = {
+
+      cursorX = e.getX
+      cursorY = e.getY
 
     }
-  }
+
   }
 
 
