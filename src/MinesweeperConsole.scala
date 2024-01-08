@@ -1,3 +1,5 @@
+import MinesweeperFunGraphics.difficulties
+
 import scala.io.StdIn.{readInt, readLine}
 import scala.util.Random
 
@@ -10,7 +12,7 @@ object MinesweeperConsole extends App{
   var perdu : Boolean = false
   var numOfMine:Int = 10;
 
-  InitGame();
+  InitGame(tryX, tryY);
   printingGameBoard()
 
   while(!perdu){
@@ -107,7 +109,15 @@ object MinesweeperConsole extends App{
   }
 
 
-  def InitGame(): Unit = {
+  def InitGame(selectedX:Int, selectedY:Int): Unit = {
+
+    println("where do you want to play")
+    print("X : ")
+    var X = readLine().toInt
+    print("Y : ")
+    var Y = readLine().toInt
+    if (X > diff || Y > diff)
+      println("error")
 
     for(i <- 0 until game.length){
       for (j <- 0 until game(i).length) {
@@ -120,7 +130,7 @@ object MinesweeperConsole extends App{
       var randomX = Random.nextInt(diff)
       var randomY = Random.nextInt(diff)
 
-      if(!game(randomX)(randomY).isMine())
+      if(!game(randomX)(randomY).isMine() && randomX != selectedX && randomY != selectedY)
         game(randomX)(randomY).setMine()
       else
         setMine()
@@ -132,6 +142,9 @@ object MinesweeperConsole extends App{
         game(i)(j).CalculateAdjacentMine(i, j, game)
       }
     }
+
+    playing(X, Y, false)
+
   }
 
   def setMine(): Unit = {
