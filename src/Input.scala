@@ -21,25 +21,41 @@ object Input {
       var mouseY = e.getY;
 
 
-      if (isIn(mouseX, mouseY, 120, posy, WIDTH, HEIGHT)) {
-        //easy
-        diff = 10
-        GameState.State = GameState.Game;
-      } else if (isIn(mouseX, mouseY, 310, posy, WIDTH, HEIGHT)) {
-        //medium
-        diff = 25
-        GameState.State = GameState.Game;
-      } else if (isIn(mouseX, mouseY, 490, posy, WIDTH, HEIGHT)) {
-        //hard
-        diff = 50
-        GameState.State = GameState.Game;
-      } else if (isIn(mouseX, mouseY, 670, posy, WIDTH, HEIGHT)) {
-        //hardcore
-        diff = 100
-        GameState.State = GameState.Game;
+      GameState.State match{
+
+        case GameState.Menu => {
+
+
+          if (isIn(mouseX, mouseY, 120, posy, WIDTH, HEIGHT)) {
+            //easy
+            diff = 10
+            GameState.State = GameState.Game;
+          } else if (isIn(mouseX, mouseY, 310, posy, WIDTH, HEIGHT)) {
+            //medium
+            diff = 25
+            GameState.State = GameState.Game;
+          } else if (isIn(mouseX, mouseY, 490, posy, WIDTH, HEIGHT)) {
+            //hard
+            diff = 50
+            GameState.State = GameState.Game;
+          } else if (isIn(mouseX, mouseY, 670, posy, WIDTH, HEIGHT)) {
+            //hardcore
+            diff = 100
+            GameState.State = GameState.Game;
+          }
+
+
+        }
+
       }
 
+    }
 
+
+    override def mouseDragged(e: MouseEvent): Unit = {
+
+      MinesweeperFunGraphics.cursorX = e.getX
+      MinesweeperFunGraphics.cursorY = e.getY
 
     }
 
