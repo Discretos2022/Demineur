@@ -46,7 +46,7 @@ object MinesweeperFunGraphics extends App{
       case GameState.Game => {
 
           // TODO : game.update();
-          // TODO : game.display(window);
+          Game.display(window);
 
         }
       }

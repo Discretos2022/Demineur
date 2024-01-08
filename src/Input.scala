@@ -23,26 +23,23 @@ object Input {
 
       if (isIn(mouseX, mouseY, 120, posy, WIDTH, HEIGHT)) {
         //easy
-        diff = 10
+        diff = 1
         GameState.State = GameState.Game;
       } else if (isIn(mouseX, mouseY, 310, posy, WIDTH, HEIGHT)) {
         //medium
-        diff = 25
+        diff = 2
         GameState.State = GameState.Game;
       } else if (isIn(mouseX, mouseY, 490, posy, WIDTH, HEIGHT)) {
         //hard
-        diff = 50
+        diff = 3
         GameState.State = GameState.Game;
       } else if (isIn(mouseX, mouseY, 670, posy, WIDTH, HEIGHT)) {
         //hardcore
-        diff = 100
+        diff = 4
         GameState.State = GameState.Game;
       }
-
-
-
+      Game.InitGame(diff)
     }
-
   }
 
 
