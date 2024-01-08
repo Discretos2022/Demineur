@@ -1,6 +1,7 @@
 import hevs.graphics.FunGraphics
+import hevs.graphics.utils.GraphicsBitmap
 
-import java.awt.{Color}
+import java.awt.{Color, Cursor, Point, Toolkit}
 import java.awt.event.{MouseAdapter, MouseEvent}
 
 object MinesweeperFunGraphics extends App{
@@ -10,23 +11,18 @@ object MinesweeperFunGraphics extends App{
   val window : FunGraphics = new FunGraphics(WIDTH, HEIGHT, "TEST 1.0 - Minesweeper", false)
   var taille : Int = 15
 
-  var cursorX = 0;
-  var cursorY = 0;
+  var cursorImg:GraphicsBitmap = new GraphicsBitmap("/cursor.png")
+  var tk:Toolkit = window.mainFrame.getToolkit();
+  var transparent:Cursor = tk.createCustomCursor(tk.getImage(""), new Point(), "trans");
+  window.mainFrame.setCursor(transparent);
+
 
   window.addMouseListener(Input.mouse)
+  window.addMouseMotionListener(Input.mouseMotion)
   window.setKeyManager(Input.keyboard)
 
-  var mouse: MouseAdapter = new MouseAdapter() {
-    override def mouseClicked(e: MouseEvent): Unit = {
-      val posX = e.getX
-      val posY = e.getY
-      val bouton = e.getButton //1 : Click gauche, 3 : click droit
-      println(s"Mouse position $posX - $posY")
-      Menu.update(posX, posY, bouton)
-    }
-  }
-  //Menu.display(window)
-  def ending() : Unit={
+
+  def ending() : Unit = {
   }
 
   while(true)
@@ -55,6 +51,9 @@ object MinesweeperFunGraphics extends App{
       }
 
     }
+
+    /// Draw The Game Cursor
+    window.drawTransformedPicture(Input.cursorX + 16, Input.cursorY + 16, 0, 2, cursorImg)
 
     window.syncGameLogic(60)
 
