@@ -1,4 +1,5 @@
 ### IntelliJ IDEA ###
 out/
+out/production
 .idea/
 Demineur.iml
