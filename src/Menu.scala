@@ -9,13 +9,22 @@ object Menu {
   var medium : GraphicsBitmap = new GraphicsBitmap("/button_medium.png")
   var hard : GraphicsBitmap = new GraphicsBitmap("/button_hard.png")
   var hardcore : GraphicsBitmap = new GraphicsBitmap("/button_hardcore.png")
-  def update(mouseX : Int, mouseY : Int, bouton : Int): Unit = {
+  val WIDTH : Int = 128
+  val HEIGHT: Int = 32
+  val posy : Int = 200
+  def update(mouseX : Int, mouseY : Int, bouton : Int): Int = {
     if(bouton == 1){
       print("click")
-      if(isIn(mouseX, mouseY, 120, 200, 128, 32)){
+      if(isIn(mouseX, mouseY, 120, posy, WIDTH, HEIGHT)){
+        //easy
         print("ok")
-      }
+      }else if(isIn(mouseX, mouseY, 310, posy, WIDTH, HEIGHT)){
+        //medium
+      }else if(isIn(mouseX, mouseY, 490, posy, WIDTH, HEIGHT)) {
+        //diff
+        }
     }
+    return 0
   }
   def display(wind  : FunGraphics): Unit = {
     wind.drawTransformedPicture(400, 100, 0, 3,  nameBanner)
