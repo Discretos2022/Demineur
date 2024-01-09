@@ -67,10 +67,12 @@ object Input {
               else if (e.getButton == 3) {
                 if(initedMine)
                   if(gameBoard(i)(j).isHide) {
-                    if(gameBoard(i)(j).flag)
-                      gameBoard(i)(j).flag = false;
-                    else
+                    if(gameBoard(i)(j).flag) {
+                      gameBoard(i)(j).flag = false
+                      mine += 2
+                    } else
                       gameBoard(i)(j).flag = true;
+                      mine -= 1
                   };
               }
 
