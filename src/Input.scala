@@ -1,4 +1,4 @@
-import Game.{caseSide, gameBoard, hours, mine, minute, numberedCase, scale, second, ticks}
+import Game.{caseSide, gameBoard, mine,mine2, numberedCase, scale, ticks, second, minute, hours}
 import Menu.{HEIGHT, WIDTH, diff, easySelected, hardSelected, hardcoreSelected, isIn, mediumSelected, posy}
 import MinesweeperFunGraphics.{cursorImg, window}
 
@@ -71,27 +71,23 @@ object Input {
                   if(gameBoard(i)(j).isHide) {
                     if(gameBoard(i)(j).flag) {
                       gameBoard(i)(j).flag = false
-                      mine += 2
+                      mine2 += 2
                     } else
                       gameBoard(i)(j).flag = true;
+                      mine2 -= 1
+                    if(gameBoard(i)(j).isMine() && gameBoard(i)(j).flag){
                       mine -= 1
+                    }
                   };
               }
-
             }
-
           }
-
         }
-
         case _ => GameState.State = GameState.Game
-
       }
-
     }
-
-
   }
+
 
 
   var mouseMotion: MouseMotionListener = new MouseMotionListener {
