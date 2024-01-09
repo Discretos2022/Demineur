@@ -1,4 +1,4 @@
-import Game.{caseSide, gameBoard, mine,mine2, numberedCase, scale, ticks, second, minute, hours}
+import Game.{caseSide, compteurEnable, gameBoard, hours, mine, mine2, minute, numberedCase, scale, second, ticks}
 import Menu.{HEIGHT, WIDTH, diff, easySelected, hardSelected, hardcoreSelected, isIn, mediumSelected, posy}
 import MinesweeperFunGraphics.{cursorImg, window}
 
@@ -132,8 +132,6 @@ object Input {
           hardcoreSelected = true;
 
 
-
-
     }
 
   }
@@ -150,6 +148,7 @@ object Input {
         second = 0;
         minute = 0;
         hours = 0;
+        compteurEnable = false;
       };
 
     }
@@ -200,6 +199,8 @@ object Input {
   def InitMines(selectedX: Int, selectedY: Int): Unit = {
 
     initedMine = true;
+
+    compteurEnable = true;
 
     for (r <- 1 to mine) {
 

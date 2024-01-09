@@ -23,6 +23,8 @@ object Game {
   var minute:Int = 0;
   var hours:Int = 0;
 
+  var compteurEnable:Boolean = false;
+
   def InitGame(difficult:Int): Unit = {
      difficult match {
       case 1 => gameBoard = Array.ofDim(9, 9)
@@ -65,19 +67,22 @@ object Game {
     return end
   }
 
-  def update(): Int = {
+  def update(): Unit = {
 
-    ticks += 1;
+    if(compteurEnable){
+      ticks += 1;
 
-    if (ticks >= 60) {
-      ticks = 0; second += 1
+      if (ticks >= 60) {
+        ticks = 0; second += 1
+      }
+      if (second >= 60) {
+        second = 0; minute += 1
+      }
+      if (minute >= 60) {
+        minute = 0; hours += 1
+      }
     }
-    if (second >= 60) {
-      second = 0; minute += 1
-    }
-    if (minute >= 60) {
-      minute = 0; hours += 1
-    }
+
   }
   def display(wind: FunGraphics): Unit = {
 
