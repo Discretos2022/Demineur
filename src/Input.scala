@@ -60,16 +60,18 @@ object Input {
                 if(!initedMine)
                   InitMines(i, j);
 
-                discoverAdjacentCase(i, j);
+                if(!gameBoard(i)(j).flag && !gameBoard(i)(j).isMine())
+                  discoverAdjacentCase(i, j);
               }
 
               else if (e.getButton == 3) {
-                if(gameBoard(i)(j).isHide) {
-                  if(gameBoard(i)(j).flag)
-                    gameBoard(i)(j).flag = false;
-                  else
-                    gameBoard(i)(j).flag = true;
-                };
+                if(initedMine)
+                  if(gameBoard(i)(j).isHide) {
+                    if(gameBoard(i)(j).flag)
+                      gameBoard(i)(j).flag = false;
+                    else
+                      gameBoard(i)(j).flag = true;
+                  };
               }
 
             }
@@ -109,8 +111,6 @@ object Input {
         hardcoreSelected = true;
 
     }
-
-
 
     override def mouseMoved(e: MouseEvent): Unit = {
 
