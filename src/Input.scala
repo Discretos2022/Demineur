@@ -64,6 +64,10 @@ object Input {
 
                 if(!gameBoard(i)(j).flag && !gameBoard(i)(j).isMine())
                   discoverAdjacentCase(i, j);
+
+                if(gameBoard(i)(j).isMine()){
+                  mine = -1
+                }
               }
 
               else if (e.getButton == 3) {
@@ -72,7 +76,8 @@ object Input {
                     if(gameBoard(i)(j).flag) {
                       gameBoard(i)(j).flag = false
                       mine2 += 2
-                    } else
+                    }
+                    else
                       gameBoard(i)(j).flag = true;
                       mine2 -= 1
                     if(gameBoard(i)(j).isMine() && gameBoard(i)(j).flag){
@@ -87,8 +92,6 @@ object Input {
       }
     }
   }
-
-
 
   var mouseMotion: MouseMotionListener = new MouseMotionListener {
     override def mouseDragged(e: MouseEvent): Unit = {
@@ -109,14 +112,12 @@ object Input {
         hardSelected = true;
       else if (isIn(cursorX, cursorY, 670, posy, WIDTH, HEIGHT))
         hardcoreSelected = true;
-
     }
 
     override def mouseMoved(e: MouseEvent): Unit = {
 
       cursorX = e.getX
       cursorY = e.getY
-
       easySelected = false;
       mediumSelected = false;
       hardSelected = false;
@@ -130,12 +131,7 @@ object Input {
           hardSelected = true;
         else if (isIn(cursorX, cursorY, 670, posy, WIDTH, HEIGHT))
           hardcoreSelected = true;
-
-
-
-
     }
-
   }
 
 
@@ -150,8 +146,7 @@ object Input {
         second = 0;
         minute = 0;
         hours = 0;
-      };
-
+      }
     }
 
     override def keyTyped(e: KeyEvent): Unit = {
@@ -162,14 +157,8 @@ object Input {
           window.displayFPS(true)
         else
           window.displayFPS(false)
-
-        println("salut")
-
-
       }
-
     }
-
   }
 
   def discoverAdjacentCase(x: Int, y: Int): Unit = {
@@ -210,29 +199,21 @@ object Input {
         gameBoard(randomX)(randomY).setMine()
       else
         setMine()
-
     }
-
     for (i <- gameBoard.indices) {
       for (j <- gameBoard(i).indices) {
         gameBoard(i)(j).CalculateAdjacentMine(i, j, gameBoard)
       }
     }
-
-
   }
 
   def setMine(): Unit = {
 
     var randomX = Random.nextInt(gameBoard.length)
     var randomY = Random.nextInt(gameBoard(0).length)
-
     if (!gameBoard(randomX)(randomY).isMine())
       gameBoard(randomX)(randomY).setMine()
     else
       setMine()
-
   }
-
-
 }

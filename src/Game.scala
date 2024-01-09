@@ -51,7 +51,10 @@ object Game {
 
   def ending(): Int = {
     var end: Int = 10
-    if (mine2 == mine && mine == 0) {
+    if(mine == -1){
+      return 0
+    }
+    else if (mine2 == mine && mine == 0) {
       for (i: Int <- gameBoard.indices;
            j: Int <- gameBoard(0).indices) {
         if(!gameBoard(i)(j).isHide || gameBoard(i)(j).flag){
@@ -65,7 +68,7 @@ object Game {
     return end
   }
 
-  def update(): Int = {
+  def update(): Unit = {
 
     ticks += 1;
 
@@ -78,6 +81,7 @@ object Game {
     if (minute >= 60) {
       minute = 0; hours += 1
     }
+
   }
   def display(wind: FunGraphics): Unit = {
 
@@ -101,8 +105,8 @@ object Game {
       wind.drawTransformedPicture(x, y, 0, scale, img)
     }
     ending() match {
-      case 1 => wind.drawFancyString(WIDTH/2-100, HEIGHT/2, "YOU WIN!", Color.GREEN, 40)
-      case 0 => wind.drawString(WIDTH/2, HEIGHT/2, "YOU LOSE!", Color.darkGray, 30)
+      case 1 => wind.drawFancyString(WIDTH/2-100, HEIGHT/2, "YOU WON!", Color.GREEN, 40)
+      case 0 => wind.drawFancyString(WIDTH/2-100, HEIGHT/2, "YOU LOSE!", Color.RED, 40)
       case _ =>
     }
   }
