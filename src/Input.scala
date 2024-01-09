@@ -1,4 +1,4 @@
-import Game.{caseSide, gameBoard, mine, numberedCase, scale}
+import Game.{caseSide, gameBoard, hours, mine, minute, numberedCase, scale, second, ticks}
 import Menu.{HEIGHT, WIDTH, diff, easySelected, hardSelected, hardcoreSelected, isIn, mediumSelected, posy}
 import MinesweeperFunGraphics.{cursorImg, window}
 
@@ -16,6 +16,8 @@ object Input {
 
   var cursorX = 0;
   var cursorY = 0;
+
+  var FPS:Boolean = false;
 
   var mouse: MouseAdapter = new MouseAdapter() {
     override def mouseClicked(e: MouseEvent): Unit = {
@@ -148,7 +150,27 @@ object Input {
       if(e.getKeyCode == KeyEvent.VK_F12) {
         initedMine = false;
         GameState.State = GameState.Menu
+        ticks = 0;
+        second = 0;
+        minute = 0;
+        hours = 0;
       };
+
+    }
+
+    override def keyTyped(e: KeyEvent): Unit = {
+
+      if(e.getKeyCode == KeyEvent.VK_F) {
+
+        if(!FPS)
+          window.displayFPS(true)
+        else
+          window.displayFPS(false)
+
+        println("salut")
+
+
+      }
 
     }
 

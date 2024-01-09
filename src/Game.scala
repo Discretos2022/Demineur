@@ -16,6 +16,12 @@ object Game {
   var caseSide: Int = 16
   var mine: Int = 0
   var scale : Double = 2
+
+  var ticks:Int = 0;
+  var second:Int = 0;
+  var minute:Int = 0;
+  var hours:Int = 0;
+
   def InitGame(difficult:Int): Unit = {
      difficult match {
       case 1 => gameBoard = Array.ofDim(9, 9)
@@ -38,13 +44,14 @@ object Game {
     }
   }
 
-  def update(mouseX: Int, mouseY: Int, bouton: Int): Int = {
-    if (bouton == 1) {
+  def update(): Int = {
 
-    }
-    else if(bouton == 3){
+    ticks += 1;
 
-    }
+    if(ticks >= 60) { ticks = 0; second += 1 }
+    if(second >= 60) { second = 0; minute += 1 }
+    if(minute >= 60) { minute = 0; hours += 1 }
+
     return 0
   }
 
@@ -57,6 +64,9 @@ object Game {
     }
   }
   def display(wind: FunGraphics): Unit = {
+
+    Writer.Write("TIME : " + hours + "h " + minute + "min " + second + "s", 500, 50, Color.black, Color.white, 20, wind)
+
     wind.drawString(50, 50, s"number of mine left : $mine", Color.darkGray, 20)
     for(i : Int <- gameBoard.indices;
         j : Int <- gameBoard(0).indices){

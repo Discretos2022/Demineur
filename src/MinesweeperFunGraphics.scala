@@ -30,7 +30,6 @@ object MinesweeperFunGraphics extends App{
     window.frontBuffer.synchronized{
 
       window.clear()
-      window.displayFPS(true)
 
       window.drawTransformedPicture(0, 0, 0, 2, backgroundImg)
 
@@ -43,7 +42,7 @@ object MinesweeperFunGraphics extends App{
       }
       case GameState.Game => {
 
-          // TODO : game.update();
+          Game.update();
           Game.display(window)
         }
       }
