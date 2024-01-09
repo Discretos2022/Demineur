@@ -37,15 +37,12 @@ class Case(){
             numOfAdjacentMine += 1
           }
         }
-
       }
     }
   }
-
   def isMine(): Boolean = {
     return Mine;
   }
-
   override def toString(): String = {
     if (flag)
       return "!"
@@ -57,7 +54,5 @@ class Case(){
       return "▀"
 
     return numOfAdjacentMine.toString
-
   }
-
 }
