@@ -48,7 +48,14 @@ object Game {
     return 0
   }
 
-
+  def ending(): Unit = {
+    if(mine == 0){
+      for (i: Int <- gameBoard.indices;
+           j: Int <- gameBoard(0).indices) {
+        gameBoard(i)(j).isHide = false
+      }
+    }
+  }
   def display(wind: FunGraphics): Unit = {
     wind.drawString(50, 50, s"number of mine left : $mine", Color.darkGray, 20)
     for(i : Int <- gameBoard.indices;
@@ -56,11 +63,14 @@ object Game {
       var x : Int = ((WIDTH-caseSide*scale*gameBoard.length)/2 + (caseSide*scale)/2 + i *scale*16).toInt
       var y : Int = ((HEIGHT-caseSide*scale*gameBoard(0).length)/2 + caseSide*scale/2 + j *scale* 16).toInt
       var img : GraphicsBitmap = numberedCase(gameBoard(i)(j).numOfAdjacentMine)
-      if(gameBoard(i)(j).isHide) {
+      if (gameBoard(i)(j).flag) {
+        img = numberedCase(10)
+      }
+      else if(gameBoard(i)(j).isHide) {
          img = caseHide
       }
-      else if(gameBoard(i)(j).flag){
-        img = numberedCase(10)
+      else if(gameBoard(i)(j).isMine() && !gameBoard(i)(j).isHide){
+        img = numberedCase(9)
       }
       wind.drawTransformedPicture(x, y, 0, scale, img)
     }

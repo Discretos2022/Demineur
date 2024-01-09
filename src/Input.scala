@@ -201,8 +201,6 @@ object Input {
     var randomX = Random.nextInt(gameBoard.length)
     var randomY = Random.nextInt(gameBoard(0).length)
 
-    println("salut")
-
     if (!gameBoard(randomX)(randomY).isMine())
       gameBoard(randomX)(randomY).setMine()
     else
