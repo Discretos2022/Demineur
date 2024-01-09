@@ -1,11 +1,18 @@
-import Menu.{HEIGHT, WIDTH, diff, isIn, posy}
+import Game.{caseSide, gameBoard, mine, numberedCase, scale}
+import Menu.{HEIGHT, WIDTH, diff, easySelected, hardSelected, hardcoreSelected, isIn, mediumSelected, posy}
+import MinesweeperFunGraphics.{cursorImg, window}
 
 import java.awt.event.{KeyAdapter, KeyEvent, MouseAdapter, MouseEvent, MouseMotionListener}
+import scala.Console.println
+import scala.io.StdIn.readLine
+import scala.util.Random
 
 object Input {
 
   var posX: Int = 0;
   var posY: Int = 0;
+
+  var initedMine:Boolean = false;
 
   var cursorX = 0;
   var cursorY = 0;
@@ -39,8 +46,42 @@ object Input {
           }
           Game.InitGame(diff)
         }
+
+        case GameState.Game => {
+
+          for (i: Int <- gameBoard.indices;
+               j: Int <- gameBoard(0).indices) {
+            var x: Int = ((800 - caseSide * scale * gameBoard.length) / 2 + (caseSide * scale) / 2 + i * scale * 16).toInt
+            var y: Int = ((600 - caseSide * scale * gameBoard(0).length) / 2 + caseSide * scale / 2 + j * scale * 16).toInt
+
+            if (isIn(mouseX, mouseY, x, y, (caseSide * scale).toInt, (caseSide * scale).toInt)) {
+              if (e.getButton == 1) {
+
+                if(!initedMine)
+                  InitMines(i, j);
+
+                discoverAdjacentCase(i, j);
+              }
+
+              else if (e.getButton == 3) {
+                if(gameBoard(i)(j).isHide) {
+                  if(gameBoard(i)(j).flag)
+                    gameBoard(i)(j).flag = false;
+                  else
+                    gameBoard(i)(j).flag = true;
+                };
+              }
+
+            }
+
+          }
+
+        }
+
         case _ => GameState.State = GameState.Game
+
       }
+
     }
 
 
@@ -48,12 +89,50 @@ object Input {
 
 
   var mouseMotion: MouseMotionListener = new MouseMotionListener {
-    override def mouseDragged(e: MouseEvent): Unit = {}
+    override def mouseDragged(e: MouseEvent): Unit = {
+
+      cursorX = e.getX
+      cursorY = e.getY
+
+      easySelected = false;
+      mediumSelected = false;
+      hardSelected = false;
+      hardcoreSelected = false;
+
+      if (isIn(cursorX, cursorY, 120, posy, WIDTH, HEIGHT))
+        easySelected = true;
+      else if (isIn(cursorX, cursorY, 310, posy, WIDTH, HEIGHT))
+        mediumSelected = true;
+      else if (isIn(cursorX, cursorY, 490, posy, WIDTH, HEIGHT))
+        hardSelected = true;
+      else if (isIn(cursorX, cursorY, 670, posy, WIDTH, HEIGHT))
+        hardcoreSelected = true;
+
+    }
+
+
 
     override def mouseMoved(e: MouseEvent): Unit = {
 
       cursorX = e.getX
       cursorY = e.getY
+
+      easySelected = false;
+      mediumSelected = false;
+      hardSelected = false;
+      hardcoreSelected = false;
+
+        if (isIn(cursorX, cursorY, 120, posy, WIDTH, HEIGHT))
+          easySelected = true;
+        else if (isIn(cursorX, cursorY, 310, posy, WIDTH, HEIGHT))
+          mediumSelected = true;
+        else if (isIn(cursorX, cursorY, 490, posy, WIDTH, HEIGHT))
+          hardSelected = true;
+        else if (isIn(cursorX, cursorY, 670, posy, WIDTH, HEIGHT))
+          hardcoreSelected = true;
+
+
+
 
     }
 
@@ -64,10 +143,70 @@ object Input {
 
     override def keyPressed(e: KeyEvent): Unit = {
 
-      if(e.getKeyCode == KeyEvent.VK_F12)
-        GameState.State = GameState.Menu;
+      if(e.getKeyCode == KeyEvent.VK_F12) {
+        initedMine = false;
+        GameState.State = GameState.Menu
+      };
 
     }
+
+  }
+
+  def discoverAdjacentCase(x: Int, y: Int): Unit = {
+
+    for (i <- x - 1 to x + 1) {
+      for (j <- y - 1 to y + 1) {
+
+        if (i >= 0 && i < gameBoard.length && j >= 0 && j < gameBoard(0).length) {
+
+          if (gameBoard(i)(j).isHide && !gameBoard(i)(j).isMine()) {
+            gameBoard(i)(j).isHide = false;
+            if (gameBoard(i)(j).numOfAdjacentMine == 0 && !gameBoard(i)(j).isMine()) {
+              discoverAdjacentCase(i, j)
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+  def InitMines(selectedX: Int, selectedY: Int): Unit = {
+
+    initedMine = true;
+
+    for (r <- 1 to mine) {
+
+      var randomX = Random.nextInt(gameBoard.length)
+      var randomY = Random.nextInt(gameBoard(0).length)
+
+      if (!gameBoard(randomX)(randomY).isMine() && randomX != selectedX && randomY != selectedY)
+        gameBoard(randomX)(randomY).setMine()
+      else
+        setMine()
+
+    }
+
+    for (i <- gameBoard.indices) {
+      for (j <- gameBoard(i).indices) {
+        gameBoard(i)(j).CalculateAdjacentMine(i, j, gameBoard)
+      }
+    }
+
+
+  }
+
+  def setMine(): Unit = {
+
+    var randomX = Random.nextInt(gameBoard.length)
+    var randomY = Random.nextInt(gameBoard(0).length)
+
+    println("salut")
+
+    if (!gameBoard(randomX)(randomY).isMine())
+      gameBoard(randomX)(randomY).setMine()
+    else
+      setMine()
 
   }
 

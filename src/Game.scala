@@ -6,11 +6,13 @@ import java.awt.Color
 
 object Game {
   var gameBoard : Array[Array[Case]] = Array.empty
-  var numberedCase : Array[GraphicsBitmap] = Array.ofDim(10)
+  var numberedCase : Array[GraphicsBitmap] = Array.ofDim(11)
+  var caseHide:GraphicsBitmap = new GraphicsBitmap("/CaseHide.png");
     for(i : Int <- 0 to 8){
       numberedCase(i) = new GraphicsBitmap(s"/Case_$i.png")
     }
     numberedCase(9) = new GraphicsBitmap("/Mine.png")
+    numberedCase(10) = new GraphicsBitmap("/Flag.png")
   var caseSide: Int = 16
   var mine: Int = 0
   var scale : Double = 2
@@ -55,7 +57,7 @@ object Game {
       var y : Int = ((HEIGHT-caseSide*scale*gameBoard(0).length)/2 + caseSide*scale/2 + j *scale* 16).toInt
       var img : GraphicsBitmap = numberedCase(gameBoard(i)(j).numOfAdjacentMine)
       if(gameBoard(i)(j).isHide) {
-         img = numberedCase(0)
+         img = caseHide
       }
       else if(gameBoard(i)(j).flag){
         img = numberedCase(10)

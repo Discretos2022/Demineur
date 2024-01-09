@@ -1,7 +1,7 @@
 import hevs.graphics.FunGraphics
 import hevs.graphics.utils.GraphicsBitmap
 
-import java.awt.{Color, Cursor, Point, Toolkit}
+import java.awt.{Color, Cursor, Image, Point, Toolkit}
 import java.awt.event.{MouseAdapter, MouseEvent}
 import javax.sound.sampled.AudioSystem
 
@@ -16,6 +16,8 @@ object MinesweeperFunGraphics extends App{
   var transparent:Cursor = tk.createCustomCursor(tk.getImage(""), new Point(), "trans");
   window.mainFrame.setCursor(transparent);
 
+  var backgroundImg:GraphicsBitmap = new GraphicsBitmap("/Background.png")
+
   window.addMouseListener(Input.mouse)
   window.addMouseMotionListener(Input.mouseMotion)
   window.setKeyManager(Input.keyboard)
@@ -29,6 +31,8 @@ object MinesweeperFunGraphics extends App{
 
       window.clear()
       window.displayFPS(true)
+
+      window.drawTransformedPicture(0, 0, 0, 2, backgroundImg)
 
       GameState.State match {
 
