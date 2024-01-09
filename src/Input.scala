@@ -154,15 +154,21 @@ object Input {
 
   def discoverAdjacentCase(x: Int, y: Int): Unit = {
 
-    for (i <- x - 1 to x + 1) {
-      for (j <- y - 1 to y + 1) {
+    if (gameBoard(x)(y).numOfAdjacentMine != 0) {
+      if (gameBoard(x)(y).isHide && !gameBoard(x)(y).isMine())
+        gameBoard(x)(y).isHide = false
+    };
+    else {
+      for (i <- x - 1 to x + 1) {
+        for (j <- y - 1 to y + 1) {
 
-        if (i >= 0 && i < gameBoard.length && j >= 0 && j < gameBoard(0).length) {
+          if (i >= 0 && i < gameBoard.length && j >= 0 && j < gameBoard(0).length) {
 
-          if (gameBoard(i)(j).isHide && !gameBoard(i)(j).isMine()) {
-            gameBoard(i)(j).isHide = false;
-            if (gameBoard(i)(j).numOfAdjacentMine == 0 && !gameBoard(i)(j).isMine()) {
-              discoverAdjacentCase(i, j)
+            if (gameBoard(i)(j).isHide && !gameBoard(i)(j).isMine()) {
+              gameBoard(i)(j).isHide = false;
+              if (gameBoard(i)(j).numOfAdjacentMine == 0 && !gameBoard(i)(j).isMine()) {
+                discoverAdjacentCase(i, j)
+              }
             }
           }
         }
