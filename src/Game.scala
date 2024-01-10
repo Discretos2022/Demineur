@@ -1,6 +1,7 @@
 import MinesweeperFunGraphics.{HEIGHT, WIDTH}
 import hevs.graphics.FunGraphics
 import hevs.graphics.utils.GraphicsBitmap
+import Menu.diff
 
 import java.awt.Color
 import java.util.ArrayList
@@ -19,6 +20,7 @@ object Game {
   var mine: Int = 0
   var mine2: Int = 0
   var scale : Double = 2
+  var bestScores : Array[Int] = Array.ofDim(4)
 
   var ticks:Int = 0;
   var second:Int = 0;
@@ -28,11 +30,11 @@ object Game {
   var blasts:ArrayBuffer[Blast] = new ArrayBuffer[Blast]();
   var blastNum:Int = 0;
 
-  var compteurEnable:Boolean = false;
+  var counterEnable:Boolean = false;
 
   def InitGame(difficult:Int): Unit = {
      difficult match {
-      case 1 => gameBoard = Array.ofDim(9, 9)
+      case 1 => gameBoard = Array.ofDim(10, 10)
                 mine = 10
                 mine2 = 10
                 scale = 2
@@ -44,10 +46,10 @@ object Game {
                 mine = 75
                 mine2 = 75
                 scale = 1.2
-      case 4 => gameBoard = Array.ofDim(30, 16)
-                mine = 99
-                mine2 = 99
-                scale = 1.2
+      case 4 => gameBoard = Array.ofDim(25, 25)
+                mine = 130
+                mine2 = 130
+                scale = 1
       case _ => gameBoard = Array.empty
     }
     for (i: Int <- gameBoard.indices;
@@ -77,7 +79,7 @@ object Game {
 
   def update(): Unit = {
 
-    if(compteurEnable){
+    if(counterEnable){
       ticks += 1;
 
       if (ticks >= 60) {
@@ -108,14 +110,19 @@ object Game {
       else if(gameBoard(i)(j).isHide) {
          img = caseHide
       }
-      else if(gameBoard(i)(j).isMine() && !gameBoard(i)(j).isHide){
+      else if(gameBoard(i)(j).isMine()){
         img = numberedCase(9)
       }
       wind.drawTransformedPicture(x, y, 0, scale, img)
     }
     ending() match {
       case 1 => wind.drawFancyString(WIDTH/2-100, HEIGHT/2, "YOU WON!", Color.GREEN, 40)
+                counterEnable = false
+                if (bestScores(diff - 1) > ticks || bestScores(diff-1) == 0) {
+                  bestScores(diff - 1) = ticks
+                }
       case 0 => wind.drawFancyString(WIDTH/2-100, HEIGHT/2, "YOU LOSE!", Color.RED, 40)
+                counterEnable = false
       case _ =>
     }
 
