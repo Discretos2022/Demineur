@@ -3,6 +3,8 @@ import hevs.graphics.FunGraphics
 import hevs.graphics.utils.GraphicsBitmap
 
 import java.awt.Color
+import java.util.ArrayList
+import scala.collection.mutable.ArrayBuffer
 
 object Game {
   var gameBoard : Array[Array[Case]] = Array.empty
@@ -22,6 +24,9 @@ object Game {
   var second:Int = 0;
   var minute:Int = 0;
   var hours:Int = 0;
+
+  var blasts:ArrayBuffer[Blast] = new ArrayBuffer[Blast]();
+  var blastNum:Int = 0;
 
   var compteurEnable:Boolean = false;
 
@@ -113,5 +118,12 @@ object Game {
       case 0 => wind.drawFancyString(WIDTH/2-100, HEIGHT/2, "YOU LOSE!", Color.RED, 40)
       case _ =>
     }
+
+
+    for(b:Int <- 0 until blastNum) {
+      blasts(b).draw(b, wind)
+    }
+
+
   }
 }

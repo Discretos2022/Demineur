@@ -1,4 +1,4 @@
-import Game.{caseSide, compteurEnable, gameBoard, hours, mine, mine2, minute, numberedCase, scale, second, ticks}
+import Game.{blasts, caseSide, compteurEnable, gameBoard, hours, mine, mine2, minute, numberedCase, scale, second, ticks}
 import Menu.{HEIGHT, WIDTH, diff, easySelected, hardSelected, hardcoreSelected, isIn, mediumSelected, posy}
 import MinesweeperFunGraphics.{cursorImg, window}
 
@@ -66,6 +66,7 @@ object Input {
                   discoverAdjacentCase(i, j);
 
                 if(gameBoard(i)(j).isMine()){
+                  blasts.addOne(new Blast(x, y))
                   mine = -1
                 }
               }
@@ -118,6 +119,8 @@ object Input {
 
       cursorX = e.getX
       cursorY = e.getY
+
+      //blasts.addOne(new Blast(cursorX, cursorY))
 
       easySelected = false;
       mediumSelected = false;

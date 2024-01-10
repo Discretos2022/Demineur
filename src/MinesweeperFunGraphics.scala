@@ -18,6 +18,11 @@ object MinesweeperFunGraphics extends App{
 
   var backgroundImg:GraphicsBitmap = new GraphicsBitmap("/Background.png")
 
+  var blastAnimation: Array[GraphicsBitmap] = Array.ofDim(9)
+  for (i: Int <- 0 to 8) {
+    blastAnimation(i) = new GraphicsBitmap(s"/Blast/Blast_$i.png")
+  }
+
   window.addMouseListener(Input.mouse)
   window.addMouseMotionListener(Input.mouseMotion)
   window.setKeyManager(Input.keyboard)
