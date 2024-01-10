@@ -2,7 +2,7 @@ import hevs.graphics.FunGraphics
 import hevs.graphics.utils.GraphicsBitmap
 
 import java.awt.Color
-
+import Game.bestScores
 object Menu {
   var nameBanner : GraphicsBitmap = new GraphicsBitmap("/Banner.png")
   var easy : GraphicsBitmap = new GraphicsBitmap("/button_easy.png")
@@ -24,37 +24,36 @@ object Menu {
   var hardSelected:Boolean = false;
   var hardcoreSelected:Boolean = false;
 
-  def update(mouseX : Int, mouseY : Int, bouton : Int): Unit = {
-
-
-
-  }
   def display(wind  : FunGraphics): Unit = {
     wind.drawTransformedPicture(400, 100, 0, 3,  nameBanner)
     wind.drawFancyString(300, 150, "What difficulty do you want?", Color.YELLOW, 15 )
     if(easySelected) {
-      Writer.Write("9x9 grid | 10 mines", 330, 400, Color.BLACK, Color.WHITE, 20, wind)
-      wind.drawPicture(120, 200, easy_selected)
+      Writer.Write("10x10 grid | 10 mines", 330, 400, Color.BLACK, Color.WHITE, 20, wind)
+      Writer.Write("best score : " + bestScores(0), 315, 430, Color.BLACK, Color.WHITE, 20, wind)
+      wind.drawPicture(120, posy, easy_selected)
     } else
-      wind.drawPicture(120, 200, easy)
+      wind.drawPicture(120, posy, easy)
 
     if(mediumSelected) {
       Writer.Write("15x15 grid | 40 mines", 315, 400, Color.BLACK, Color.WHITE, 20, wind)
-      wind.drawPicture(310, 200, medium_selected)
+      Writer.Write("best score : "+ bestScores(1), 315, 430, Color.BLACK, Color.WHITE, 20, wind)
+      wind.drawPicture(310, posy, medium_selected)
     } else
-      wind.drawPicture(310, 200, medium)
+      wind.drawPicture(310, posy, medium)
 
     if(hardSelected) {
       Writer.Write("20x20 grid | 75 mines", 315, 400, Color.BLACK, Color.WHITE, 20, wind)
-      wind.drawPicture(490, 200, hard_selected)
+      Writer.Write("best score : " + bestScores(2), 315, 430, Color.BLACK, Color.WHITE, 20, wind)
+      wind.drawPicture(490, posy, hard_selected)
     } else
-      wind.drawPicture(490, 200, hard)
+      wind.drawPicture(490, posy, hard)
 
     if(hardcoreSelected) {
-      Writer.Write("30x16 grid | 99 mines", 315, 400, Color.BLACK, Color.WHITE, 20, wind)
-      wind.drawPicture(670, 200, hardcore_selected)
+      Writer.Write("25x25 grid | 130 mines", 315, 400, Color.BLACK, Color.WHITE, 20, wind)
+      Writer.Write("best score : " + bestScores(3), 315, 430, Color.BLACK, Color.WHITE, 20, wind)
+      wind.drawPicture(670, posy, hardcore_selected)
     } else
-      wind.drawPicture(670, 200, hardcore)
+      wind.drawPicture(670, posy, hardcore)
 
     Writer.Write("version 1.0 beta", 5, 600 - 5, Color.BLACK, Color.WHITE, 15, wind)
 

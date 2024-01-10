@@ -1,4 +1,4 @@
-import Game.{caseSide, compteurEnable, gameBoard, hours, mine, mine2, minute, numberedCase, scale, second, ticks}
+import Game.{caseSide, counterEnable, gameBoard, hours, mine, mine2, minute, numberedCase, scale, second, ticks}
 import Menu.{HEIGHT, WIDTH, diff, easySelected, hardSelected, hardcoreSelected, isIn, mediumSelected, posy}
 import MinesweeperFunGraphics.{cursorImg, window}
 
@@ -66,6 +66,7 @@ object Input {
                   discoverAdjacentCase(i, j);
 
                 if(gameBoard(i)(j).isMine()){
+                  gameBoard(i)(j).isHide = false
                   mine = -1
                 }
               }
@@ -147,7 +148,7 @@ object Input {
         second = 0;
         minute = 0;
         hours = 0;
-        compteurEnable = false;
+        counterEnable = false;
       }
     }
 
@@ -164,11 +165,13 @@ object Input {
   }
 
   def discoverAdjacentCase(x: Int, y: Int): Unit = {
-
+    if(gameBoard(x)(y).isMine()){
+      gameBoard(x)(y).isHide = false
+    }
     if (gameBoard(x)(y).numOfAdjacentMine != 0) {
-      if (gameBoard(x)(y).isHide && !gameBoard(x)(y).isMine())
+      if (gameBoard(x)(y).isHide)
         gameBoard(x)(y).isHide = false
-    };
+    }
     else {
       for (i <- x - 1 to x + 1) {
         for (j <- y - 1 to y + 1) {
@@ -192,7 +195,7 @@ object Input {
 
     initedMine = true;
 
-    compteurEnable = true;
+    counterEnable = true;
 
     for (r <- 1 to mine) {
 
