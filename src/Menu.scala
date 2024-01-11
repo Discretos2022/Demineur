@@ -28,7 +28,7 @@ object Menu {
     wind.drawTransformedPicture(400, 100, 0, 3,  nameBanner)
     wind.drawFancyString(300, 150, "What difficulty do you want?", Color.YELLOW, 15 )
     if(easySelected) {
-      Writer.Write("10x10 grid | 10 mines", 330, 400, Color.BLACK, Color.WHITE, 20, wind)
+      Writer.Write("10x10 grid | 10 mines", 315, 400, Color.BLACK, Color.WHITE, 20, wind)
       Writer.Write("best score : " + bestScores(0), 315, 430, Color.BLACK, Color.WHITE, 20, wind)
       wind.drawPicture(120, posy, easy_selected)
     } else

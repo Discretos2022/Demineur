@@ -3,6 +3,7 @@ import hevs.graphics.utils.GraphicsBitmap
 
 import java.awt.{Color, Cursor, Image, Point, Toolkit}
 import java.awt.event.{MouseAdapter, MouseEvent}
+import java.util.Random
 import javax.sound.sampled.AudioSystem
 
 object MinesweeperFunGraphics extends App{
@@ -15,6 +16,8 @@ object MinesweeperFunGraphics extends App{
   var tk:Toolkit = window.mainFrame.getToolkit();
   var transparent:Cursor = tk.createCustomCursor(tk.getImage(""), new Point(), "trans");
   window.mainFrame.setCursor(transparent);
+
+  var random:Random = new Random();
 
   var backgroundImg:GraphicsBitmap = new GraphicsBitmap("/Background.png")
 

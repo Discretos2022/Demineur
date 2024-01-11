@@ -1,6 +1,13 @@
+import Game.blasts
+
 class Case(){
 
   private var Mine = false;
+
+  /// Used for explosed texture
+  var explosed:Boolean = false;
+
+  var blastIsGenerated = false;
 
   var isHide:Boolean = true;
   var numOfAdjacentMine:Int = 0;
@@ -55,4 +62,14 @@ class Case(){
 
     return numOfAdjacentMine.toString
   }
+
+   /// Used for mines explosion
+  def explode(x:Int, y:Int, i:Int, j:Int): Unit = {
+
+    blasts.addOne(new Blast(x, y, i, j))
+    blastIsGenerated = true;
+
+  }
+
+
 }

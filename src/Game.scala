@@ -1,21 +1,24 @@
-import MinesweeperFunGraphics.{HEIGHT, WIDTH}
+import MinesweeperFunGraphics.{HEIGHT, WIDTH, random}
 import hevs.graphics.FunGraphics
 import hevs.graphics.utils.GraphicsBitmap
 import Menu.diff
 
 import java.awt.Color
-import java.util.ArrayList
 import scala.collection.mutable.ArrayBuffer
 
 object Game {
   var gameBoard : Array[Array[Case]] = Array.empty
   var numberedCase : Array[GraphicsBitmap] = Array.ofDim(11)
   var caseHide:GraphicsBitmap = new GraphicsBitmap("/CaseHide.png");
+  var caseExplosed:GraphicsBitmap = new GraphicsBitmap("/CaseExplosed.png");
     for(i : Int <- 0 to 8){
       numberedCase(i) = new GraphicsBitmap(s"/Case_$i.png")
     }
     numberedCase(9) = new GraphicsBitmap("/Mine.png")
     numberedCase(10) = new GraphicsBitmap("/Flag.png")
+
+  var backgroundEndGame:GraphicsBitmap = new GraphicsBitmap("/BackgroundEndGame.png")
+
   var caseSide: Int = 16
   var mine: Int = 0
   var mine2: Int = 0
@@ -26,6 +29,11 @@ object Game {
   var second:Int = 0;
   var minute:Int = 0;
   var hours:Int = 0;
+
+  // Position dans la grille
+  var distanceOfExlosion:Float = 0;
+  var positionExplosionX = 0;
+  var positionExplosionY = 0;
 
   var blasts:ArrayBuffer[Blast] = new ArrayBuffer[Blast]();
   var blastNum:Int = 0;
@@ -93,12 +101,45 @@ object Game {
       }
     }
 
+    if(ending() == 0 && !AllMinesExplosed()) {
+
+      distanceOfExlosion += 0.25f;
+
+      for(i:Int <- 0 until gameBoard.length){
+        for (j: Int <- 0 until gameBoard(0).length) {
+
+          /// Position on screen
+          var x: Int = ((800 - caseSide * scale * gameBoard.length) / 2 + (caseSide * scale) / 2 + i * scale * 16).toInt
+          var y: Int = ((600 - caseSide * scale * gameBoard(0).length) / 2 + caseSide * scale / 2 + j * scale * 16).toInt
+
+          if(!gameBoard(i)(j).blastIsGenerated) {
+            if(gameBoard(i)(j).isMine())
+              if(!gameBoard(i)(j).flag)
+                if(Math.sqrt(Math.pow(positionExplosionX - i, 2) + Math.pow(positionExplosionY - j, 2)) < distanceOfExlosion) {
+                  gameBoard(i)(j).explode(x, y, i, j)
+            }
+          }
+        }
+      }
+
+    }
+
   }
   def display(wind: FunGraphics): Unit = {
 
-    Writer.Write("TIME : " + hours + "h " + minute + "min " + second + "s", 500, 50, Color.black, Color.white, 20, wind)
+    Writer.Write("TIME : " + hours + "h " + minute + "min " + second + "s", 600, 50, Color.black, Color.white, 20, wind)
+    Writer.Write(s"number of mine left : $mine2", 50, 50, Color.black, Color.gray, 20, wind)
 
-    wind.drawString(50, 50, s"number of mine left : $mine2", Color.darkGray, 20)
+    //wind.drawString(50, 50, s"number of mine left : $mine2", Color.darkGray, 20)
+
+    var Xvibr:Int = 0;
+    var Yvibr:Int = 0;
+
+    if(ending() == 0 && !AllMinesExplosed()){
+      Xvibr = random.nextInt(-1, 2);
+      Yvibr = random.nextInt(-1, 2)
+    }
+
     for(i : Int <- gameBoard.indices;
         j : Int <- gameBoard(0).indices){
       var x : Int = ((WIDTH-caseSide*scale*gameBoard.length)/2 + (caseSide*scale)/2 + i *scale*16).toInt
@@ -113,24 +154,40 @@ object Game {
       else if(gameBoard(i)(j).isMine()){
         img = numberedCase(9)
       }
-      wind.drawTransformedPicture(x, y, 0, scale, img)
+      if(gameBoard(i)(j).explosed) img = caseExplosed
+      wind.drawTransformedPicture(x + Xvibr, y + Yvibr, 0, scale, img)
     }
+
+    for (b: Int <- 0 until blasts.length) {
+      blasts(b).draw(b, wind)
+    }
+
     ending() match {
-      case 1 => wind.drawFancyString(WIDTH/2-100, HEIGHT/2, "YOU WON!", Color.GREEN, 40)
+      case 1 => //wind.drawTransformedPicture(0, 0, 0, 2, backgroundEndGame)
+                wind.drawFancyString(WIDTH/2-100, HEIGHT/2, "YOU WON!", Color.GREEN, 40)
                 counterEnable = false
                 if (bestScores(diff - 1) > ticks || bestScores(diff-1) == 0) {
                   bestScores(diff - 1) = ticks
                 }
-      case 0 => wind.drawFancyString(WIDTH/2-100, HEIGHT/2, "YOU LOSE!", Color.RED, 40)
+                if(AllMinesExplosed())
+                  Writer.Write("PRESS <F12> TO RETURN MAIN MENU", 5, 600 - 5, Color.BLACK, Color.WHITE, 15, wind)
+      case 0 => //wind.drawPicture(0, 0, backgroundEndGame)
+                wind.drawFancyString(WIDTH/2-100, HEIGHT/2, "YOU LOSE!", Color.RED, 40)
                 counterEnable = false
+                if (AllMinesExplosed())
+                  Writer.Write("PRESS <F12> TO RETURN MAIN MENU", 5, 600 - 5, Color.BLACK, Color.WHITE, 15, wind)
       case _ =>
     }
 
-
-    for(b:Int <- 0 until blastNum) {
-      blasts(b).draw(b, wind)
-    }
-
-
   }
+
+  def AllMinesExplosed(): Boolean = {
+
+    for (b: Int <- 0 until blasts.length) {
+      if (!blasts(b).animation.end)
+        return false;
+    }
+    return true;
+  }
+
 }

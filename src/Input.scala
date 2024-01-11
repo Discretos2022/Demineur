@@ -1,4 +1,4 @@
-import Game.{blasts, caseSide, counterEnable, gameBoard, hours, mine, mine2, minute, numberedCase, scale, second, ticks}
+import Game.{blastNum, blasts, caseSide, counterEnable, distanceOfExlosion, ending, gameBoard, hours, mine, mine2, minute, numberedCase, positionExplosionX, positionExplosionY, scale, second, ticks}
 import Menu.{HEIGHT, WIDTH, diff, easySelected, hardSelected, hardcoreSelected, isIn, mediumSelected, posy}
 import MinesweeperFunGraphics.{cursorImg, window}
 
@@ -18,6 +18,9 @@ object Input {
   var cursorY = 0;
 
   var FPS:Boolean = false;
+
+  var F1Pressed:Boolean = false;
+  var F1HasPressed:Boolean = false;
 
   var mouse: MouseAdapter = new MouseAdapter() {
     override def mouseClicked(e: MouseEvent): Unit = {
@@ -51,41 +54,46 @@ object Input {
 
         case GameState.Game => {
 
-          for (i: Int <- gameBoard.indices;
-               j: Int <- gameBoard(0).indices) {
-            var x: Int = ((800 - caseSide * scale * gameBoard.length) / 2 + (caseSide * scale) / 2 + i * scale * 16).toInt
-            var y: Int = ((600 - caseSide * scale * gameBoard(0).length) / 2 + caseSide * scale / 2 + j * scale * 16).toInt
+          if(ending() != 0 && ending() != 1){
 
-            if (isIn(mouseX, mouseY, x, y, (caseSide * scale).toInt, (caseSide * scale).toInt)) {
-              if (e.getButton == 1) {
+            for (i: Int <- gameBoard.indices;
+                 j: Int <- gameBoard(0).indices) {
+              var x: Int = ((800 - caseSide * scale * gameBoard.length) / 2 + (caseSide * scale) / 2 + i * scale * 16).toInt
+              var y: Int = ((600 - caseSide * scale * gameBoard(0).length) / 2 + caseSide * scale / 2 + j * scale * 16).toInt
 
-                if(!initedMine)
-                  InitMines(i, j);
+              if (isIn(mouseX, mouseY, x, y, (caseSide * scale).toInt, (caseSide * scale).toInt)) {
+                if (e.getButton == 1) {
 
-                if(!gameBoard(i)(j).flag && !gameBoard(i)(j).isMine())
-                  discoverAdjacentCase(i, j);
+                  if(!initedMine)
+                    InitMines(i, j);
 
-                if(gameBoard(i)(j).isMine()){
-                  gameBoard(i)(j).isHide = false
-                  blasts.addOne(new Blast(x, y))
-                  mine = -1
+                  if(!gameBoard(i)(j).flag && !gameBoard(i)(j).isMine())
+                    discoverAdjacentCase(i, j);
+
+                  if(gameBoard(i)(j).isMine() && !gameBoard(i)(j).flag){
+                    gameBoard(i)(j).isHide = false;
+                    gameBoard(i)(j).explode(x, y, i, j);
+                    positionExplosionX = i;
+                    positionExplosionY = j;
+                    mine = -1
+                  }
                 }
-              }
 
-              else if (e.getButton == 3) {
-                if(initedMine)
-                  if(gameBoard(i)(j).isHide) {
-                    if(gameBoard(i)(j).flag) {
-                      gameBoard(i)(j).flag = false
-                      mine2 += 2
-                    }
-                    else
-                      gameBoard(i)(j).flag = true;
-                      mine2 -= 1
-                    if(gameBoard(i)(j).isMine() && gameBoard(i)(j).flag){
-                      mine -= 1
-                    }
-                  };
+                else if (e.getButton == 3) {
+                  if(initedMine)
+                    if(gameBoard(i)(j).isHide) {
+                      if(gameBoard(i)(j).flag) {
+                        gameBoard(i)(j).flag = false
+                        mine2 += 2
+                      }
+                      else
+                        gameBoard(i)(j).flag = true;
+                        mine2 -= 1
+                      if(gameBoard(i)(j).isMine() && gameBoard(i)(j).flag){
+                        mine -= 1
+                      }
+                    };
+                }
               }
             }
           }
@@ -142,27 +150,44 @@ object Input {
 
     override def keyPressed(e: KeyEvent): Unit = {
 
-      if(e.getKeyCode == KeyEvent.VK_F12) {
-        initedMine = false;
-        GameState.State = GameState.Menu
-        ticks = 0;
-        second = 0;
-        minute = 0;
-        hours = 0;
-        counterEnable = false;
+      if(Game.AllMinesExplosed() || ending() != 0)
+        if(e.getKeyCode == KeyEvent.VK_F12) {
+          initedMine = false;
+          GameState.State = GameState.Menu
+          ticks = 0;
+          second = 0;
+          minute = 0;
+          hours = 0;
+          distanceOfExlosion = 0;
+          counterEnable = false;
+          blasts.clear();
+        }
+
+      if (e.getKeyCode == KeyEvent.VK_F1) {
+
+        F1Pressed = true;
+
+        if(F1Pressed && !F1HasPressed){
+          if (!FPS)
+            FPS = true;
+          else
+            FPS = false;
+        }
+
+        window.displayFPS(FPS)
+        F1HasPressed = F1Pressed;
       }
     }
 
-    override def keyTyped(e: KeyEvent): Unit = {
+    override def keyReleased(e: KeyEvent): Unit = {
 
-      if(e.getKeyCode == KeyEvent.VK_F) {
-
-        if(!FPS)
-          window.displayFPS(true)
-        else
-          window.displayFPS(false)
+      if (e.getKeyCode == KeyEvent.VK_F1) {
+        F1Pressed = false;
+        F1HasPressed = false;
       }
+
     }
+
   }
 
   def discoverAdjacentCase(x: Int, y: Int): Unit = {
@@ -224,4 +249,5 @@ object Input {
     else
       setMine()
   }
+
 }

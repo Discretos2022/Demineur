@@ -34,7 +34,7 @@ class Animation(images: Array[GraphicsBitmap]) {
         {end = true; frame = 0}
     }
 
-    window.drawTransformedPicture((posX).toInt, (posY).toInt, 0, scale, images(frame))
+    window.drawTransformedPicture((posX).toInt, (posY).toInt, 0, scale * frame * 0.25, images(frame))
 
   }
 
