@@ -2,7 +2,7 @@ import hevs.graphics.FunGraphics
 import hevs.graphics.utils.GraphicsBitmap
 
 import java.awt.Color
-import Game.bestScores
+import MinesweeperFunGraphics.bestScores
 object Menu {
   var nameBanner : GraphicsBitmap = new GraphicsBitmap("/Banner.png")
   var easy : GraphicsBitmap = new GraphicsBitmap("/button_easy.png")
@@ -29,28 +29,28 @@ object Menu {
     wind.drawFancyString(300, 150, "What difficulty do you want?", Color.YELLOW, 15 )
     if(easySelected) {
       Writer.Write("10x10 grid | 10 mines", 315, 400, Color.BLACK, Color.WHITE, 20, wind)
-      Writer.Write("best score : " + bestScores(0), 315, 430, Color.BLACK, Color.WHITE, 20, wind)
+      Writer.Write("best score : " + Game.GetTime(bestScores(0)), 315, 430, Color.BLACK, Color.WHITE, 20, wind)
       wind.drawPicture(120, posy, easy_selected)
     } else
       wind.drawPicture(120, posy, easy)
 
     if(mediumSelected) {
       Writer.Write("15x15 grid | 40 mines", 315, 400, Color.BLACK, Color.WHITE, 20, wind)
-      Writer.Write("best score : "+ bestScores(1), 315, 430, Color.BLACK, Color.WHITE, 20, wind)
+      Writer.Write("best score : " + Game.GetTime(bestScores(1)), 315, 430, Color.BLACK, Color.WHITE, 20, wind)
       wind.drawPicture(310, posy, medium_selected)
     } else
       wind.drawPicture(310, posy, medium)
 
     if(hardSelected) {
       Writer.Write("20x20 grid | 75 mines", 315, 400, Color.BLACK, Color.WHITE, 20, wind)
-      Writer.Write("best score : " + bestScores(2), 315, 430, Color.BLACK, Color.WHITE, 20, wind)
+      Writer.Write("best score : " + Game.GetTime(bestScores(2)), 315, 430, Color.BLACK, Color.WHITE, 20, wind)
       wind.drawPicture(490, posy, hard_selected)
     } else
       wind.drawPicture(490, posy, hard)
 
     if(hardcoreSelected) {
       Writer.Write("25x25 grid | 130 mines", 315, 400, Color.BLACK, Color.WHITE, 20, wind)
-      Writer.Write("best score : " + bestScores(3), 315, 430, Color.BLACK, Color.WHITE, 20, wind)
+      Writer.Write("best score : " + Game.GetTime(bestScores(3)), 315, 430, Color.BLACK, Color.WHITE, 20, wind)
       wind.drawPicture(670, posy, hardcore_selected)
     } else
       wind.drawPicture(670, posy, hardcore)

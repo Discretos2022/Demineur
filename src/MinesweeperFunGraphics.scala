@@ -30,6 +30,9 @@ object MinesweeperFunGraphics extends App{
   window.addMouseMotionListener(Input.mouseMotion)
   window.setKeyManager(Input.keyboard)
 
+  var bestScores : Array[Int] = Array.ofDim(4)
+  Save.ReadSave();
+
   while(true)
     gameLoop();
 

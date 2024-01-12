@@ -1,35 +1,41 @@
-import java.io.{BufferedOutputStream, BufferedWriter, FileOutputStream, PrintStream, Writer}
+import MinesweeperFunGraphics.bestScores
+
+import java.io.{BufferedOutputStream, FileOutputStream, PrintStream}
 
 object Save {
 
-  var file:String = "/save.txt";
+  var file:String = "res/save.txt";
 
   def WriterSave(): Unit = {
 
     val f = new PrintStream(new BufferedOutputStream(new FileOutputStream(file)))
 
     try {
+      for(i:Int <-0 until bestScores.length)
+        f.println(bestScores(i))
 
-      f.println()
-
+      f.close();
     }
 
   }
 
-
   def ReadSave(): Unit = {
 
-    val f = scala.io.Source.fromFile(file)
-    val data:Array[String] = f.getLines().toArray
-    f.close()
+    try{
+      val f = scala.io.Source.fromFile(file)
+      val data: Array[String] = f.getLines().toArray
+      f.close()
 
-    //data(0)
+      for (i: Int <- 0 until data.length) {
 
+        bestScores(i) = java.lang.Integer.parseInt(data(i))
+
+        println(Integer.getInteger(data(i)))
+
+      }
+
+    }
 
   }
-
-
-
-
 
 }

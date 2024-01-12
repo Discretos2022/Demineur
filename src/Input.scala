@@ -1,4 +1,4 @@
-import Game.{blastNum, blasts, caseSide, counterEnable, distanceOfExlosion, ending, gameBoard, hours, mine, mine2, minute, numberedCase, positionExplosionX, positionExplosionY, scale, second, ticks}
+import Game.{blastNum, blasts, caseSide, counterEnable, distanceOfExlosion, ending, gameBoard, mine, mine2, numberedCase, positionExplosionX, positionExplosionY, scale, ticks}
 import Menu.{HEIGHT, WIDTH, diff, easySelected, hardSelected, hardcoreSelected, isIn, mediumSelected, posy}
 import MinesweeperFunGraphics.{cursorImg, window}
 
@@ -75,6 +75,7 @@ object Input {
                     gameBoard(i)(j).explode(x, y, i, j);
                     positionExplosionX = i;
                     positionExplosionY = j;
+                    Save.WriterSave();
                     mine = -1
                   }
                 }
@@ -155,9 +156,6 @@ object Input {
           initedMine = false;
           GameState.State = GameState.Menu
           ticks = 0;
-          second = 0;
-          minute = 0;
-          hours = 0;
           distanceOfExlosion = 0;
           counterEnable = false;
           blasts.clear();

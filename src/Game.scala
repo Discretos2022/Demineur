@@ -1,4 +1,4 @@
-import MinesweeperFunGraphics.{HEIGHT, WIDTH, random}
+import MinesweeperFunGraphics.{HEIGHT, WIDTH, bestScores, random}
 import hevs.graphics.FunGraphics
 import hevs.graphics.utils.GraphicsBitmap
 import Menu.diff
@@ -23,12 +23,8 @@ object Game {
   var mine: Int = 0
   var mine2: Int = 0
   var scale : Double = 2
-  var bestScores : Array[Int] = Array.ofDim(4)
 
   var ticks:Int = 0;
-  var second:Int = 0;
-  var minute:Int = 0;
-  var hours:Int = 0;
 
   // Position dans la grille
   var distanceOfExlosion:Float = 0;
@@ -89,16 +85,6 @@ object Game {
 
     if(counterEnable){
       ticks += 1;
-
-      if (ticks >= 60) {
-        ticks = 0; second += 1
-      }
-      if (second >= 60) {
-        second = 0; minute += 1
-      }
-      if (minute >= 60) {
-        minute = 0; hours += 1
-      }
     }
 
     if(ending() == 0 && !AllMinesExplosed()) {
@@ -127,7 +113,8 @@ object Game {
   }
   def display(wind: FunGraphics): Unit = {
 
-    Writer.Write("TIME : " + hours + "h " + minute + "min " + second + "s", 600, 50, Color.black, Color.white, 20, wind)
+    //Writer.Write("TIME : " + hours + "h " + minute + "min " + second + "s", 600, 50, Color.black, Color.white, 20, wind)
+    Writer.Write("TIME : " + GetTime(ticks), 600, 50, Color.black, Color.white, 20, wind)
     Writer.Write(s"number of mine left : $mine2", 50, 50, Color.black, Color.gray, 20, wind)
 
     //wind.drawString(50, 50, s"number of mine left : $mine2", Color.darkGray, 20)
@@ -168,6 +155,7 @@ object Game {
                 counterEnable = false
                 if (bestScores(diff - 1) > ticks || bestScores(diff-1) == 0) {
                   bestScores(diff - 1) = ticks
+                  Save.WriterSave()
                 }
                 if(AllMinesExplosed())
                   Writer.Write("PRESS <F12> TO RETURN MAIN MENU", 5, 600 - 5, Color.BLACK, Color.WHITE, 15, wind)
@@ -188,6 +176,20 @@ object Game {
         return false;
     }
     return true;
+  }
+
+  def GetTime(ticks:Int): String = {
+
+    var second: Int = 0;
+    var minute: Int = 0;
+    var hours: Int = 0;
+
+    second = ticks / 60;
+    minute = second / 60;
+    hours = minute / 60;
+
+    return new String(hours + "h " + (minute - hours * 60) + "min " + (second - minute * 60) + "s")
+
   }
 
 }
