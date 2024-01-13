@@ -44,6 +44,8 @@ object MinesweeperFunGraphics extends App{
 
       window.drawTransformedPicture(0, 0, 0, 2, backgroundImg)
 
+      Input.DoubleClickTime += 1;
+
       GameState.State match {
 
         case GameState.Menu => {

@@ -1,6 +1,6 @@
 import Game.{blastNum, blasts, caseSide, counterEnable, distanceOfExlosion, ending, gameBoard, mine, mine2, numberedCase, positionExplosionX, positionExplosionY, scale, ticks}
 import Menu.{HEIGHT, WIDTH, diff, easySelected, hardSelected, hardcoreSelected, isIn, mediumSelected, posy}
-import MinesweeperFunGraphics.{cursorImg, window}
+import MinesweeperFunGraphics.{cursorImg, gameLoop, window}
 
 import java.awt.event.{KeyAdapter, KeyEvent, MouseAdapter, MouseEvent, MouseMotionListener}
 import scala.Console.println
@@ -21,6 +21,8 @@ object Input {
 
   var F1Pressed:Boolean = false;
   var F1HasPressed:Boolean = false;
+
+  var DoubleClickTime = 0;
 
   var mouse: MouseAdapter = new MouseAdapter() {
     override def mouseClicked(e: MouseEvent): Unit = {
@@ -54,6 +56,7 @@ object Input {
 
         case GameState.Game => {
 
+          /// Si la partie n'est pas terminée
           if(ending() != 0 && ending() != 1){
 
             for (i: Int <- gameBoard.indices;
@@ -78,8 +81,15 @@ object Input {
                     Save.WriterSave();
                     mine = -1
                   }
+
+                  /// Double Click
+                  if (DoubleClickTime < 30) { // 30 pour 0.5 second
+                    println("DOUBLE CLICK : " + canDoubleClickOnCase(i, j))
+                  }
+
                 }
 
+                /// Si Click gauche
                 else if (e.getButton == 3) {
                   if(initedMine)
                     if(gameBoard(i)(j).isHide) {
@@ -99,8 +109,12 @@ object Input {
             }
           }
         }
+
         case _ => GameState.State = GameState.Game
       }
+
+      DoubleClickTime = 0;
+
     }
   }
 
@@ -175,6 +189,13 @@ object Input {
         window.displayFPS(FPS)
         F1HasPressed = F1Pressed;
       }
+
+
+      if (e.getKeyCode == KeyEvent.VK_F2) {
+        printInstantOfPart()
+      }
+
+
     }
 
     override def keyReleased(e: KeyEvent): Unit = {
@@ -246,6 +267,58 @@ object Input {
       gameBoard(randomX)(randomY).setMine()
     else
       setMine()
+  }
+
+  def printInstantOfPart(): Unit = {
+
+    println("STATE OF PART (MINES) : \n")
+
+    for (j <- 0 until gameBoard(0).length) {
+      for (i <- 0 until gameBoard.length) {
+        if(gameBoard(i)(j).isMine())
+          print("X  ");
+        else
+          print("-  ")
+      }
+      print("\n")
+    }
+
+  }
+
+  def canDoubleClickOnCase(x:Int, y:Int):Boolean = {
+
+    if (gameBoard(x)(y).flag)
+      return false;
+
+    var Xmin = x - 1;
+    var Xmax = x + 1;
+    var Ymin = y - 1;
+    var Ymax = y + 1;
+
+    if (Xmin < 0) Xmin = 0
+    if (Xmax >= gameBoard.length) Xmax = gameBoard.length - 1
+    if (Ymin < 0) Ymin = 0
+    if (Ymax >= gameBoard(0).length) Ymax = gameBoard(0).length - 1
+
+    for(i:Int <- Xmin to Xmax){
+      for (j: Int <- Ymin to Ymax) {
+
+        if (!gameBoard(i)(j).flag)
+          if(gameBoard(i)(j).isMine())
+            return false;
+
+      }
+    }
+
+    for (i: Int <- Xmin to Xmax) {
+      for (j: Int <- Ymin to Ymax) {
+
+        if(!gameBoard(i)(j).isMine())
+          discoverAdjacentCase(i, j)
+
+      }
+    }
+    return true;
   }
 
 }
