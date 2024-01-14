@@ -70,10 +70,10 @@ object Input {
                   if(!initedMine)
                     InitMines(i, j);
 
-                  if(!gameBoard(i)(j).flag && !gameBoard(i)(j).isMine())
+                  if(!gameBoard(i)(j).flag && !gameBoard(i)(j).isMine() && !gameBoard(i)(j).flagMIneOrNotMine)
                     discoverAdjacentCase(i, j);
 
-                  if(gameBoard(i)(j).isMine() && !gameBoard(i)(j).flag){
+                  if(gameBoard(i)(j).isMine() && !gameBoard(i)(j).flag && !gameBoard(i)(j).flagMIneOrNotMine){
                     gameBoard(i)(j).isHide = false;
                     gameBoard(i)(j).explode(x, y, i, j);
                     positionExplosionX = i;
@@ -91,18 +91,30 @@ object Input {
 
                 /// Si Click gauche
                 else if (e.getButton == 3) {
-                  if(initedMine)
-                    if(gameBoard(i)(j).isHide) {
-                      if(gameBoard(i)(j).flag) {
-                        gameBoard(i)(j).flag = false
-                        mine2 += 2
+                  if (initedMine)
+                    if (gameBoard(i)(j).isHide) {
+                      if (!gameBoard(i)(j).flagMIneOrNotMine && !gameBoard(i)(j).flag) {
+                        gameBoard(i)(j).flag = true
                       }
-                      else
-                        gameBoard(i)(j).flag = true;
-                        mine2 -= 1
-                      if(gameBoard(i)(j).isMine() && gameBoard(i)(j).flag){
+                      else if (gameBoard(i)(j).flag) {
+                        gameBoard(i)(j).flag = false
+                        gameBoard(i)(j).flagMIneOrNotMine = true;
+                        mine2 += 2
+
+                        if(gameBoard(i)(j).isMine())
+                          mine += 1
+                      }
+                      else if (gameBoard(i)(j).flagMIneOrNotMine) {
+                        gameBoard(i)(j).flagMIneOrNotMine = false;
+                        mine2 += 1;
+                      }
+
+                      mine2 -= 1
+
+                      if (gameBoard(i)(j).isMine() && gameBoard(i)(j).flag) {
                         mine -= 1
                       }
+
                     };
                 }
               }
@@ -190,11 +202,9 @@ object Input {
         F1HasPressed = F1Pressed;
       }
 
-
       if (e.getKeyCode == KeyEvent.VK_F2) {
         printInstantOfPart()
       }
-
 
     }
 
@@ -305,6 +315,10 @@ object Input {
 
         if (!gameBoard(i)(j).flag)
           if(gameBoard(i)(j).isMine())
+            return false;
+
+        if (gameBoard(i)(j).flag)
+          if (!gameBoard(i)(j).isMine())
             return false;
 
       }

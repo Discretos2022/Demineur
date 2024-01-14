@@ -12,6 +12,8 @@ class Case(){
   var isHide:Boolean = true;
   var numOfAdjacentMine:Int = 0;
   var flag:Boolean = false;
+  var flagMIneOrNotMine = false;
+
   val DIRECTIONS: Array[Array[Int]] = Array(
     Array(-1, -1), // haut gauche
     Array(-1, 0), // haut

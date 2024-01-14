@@ -10,6 +10,7 @@ object Game {
   var gameBoard : Array[Array[Case]] = Array.empty
   var numberedCase : Array[GraphicsBitmap] = Array.ofDim(11)
   var caseHide:GraphicsBitmap = new GraphicsBitmap("/CaseHide.png");
+  var caseMineOrNotMine = new GraphicsBitmap("/CaseMineOrNotMine.png");
   var caseExplosed:GraphicsBitmap = new GraphicsBitmap("/CaseExplosed.png");
     for(i : Int <- 0 to 8){
       numberedCase(i) = new GraphicsBitmap(s"/Case_$i.png")
@@ -113,6 +114,8 @@ object Game {
   }
   def display(wind: FunGraphics): Unit = {
 
+    println(mine)
+
     //Writer.Write("TIME : " + hours + "h " + minute + "min " + second + "s", 600, 50, Color.black, Color.white, 20, wind)
     Writer.Write("TIME : " + GetTime(ticks), 600, 50, Color.black, Color.white, 20, wind)
     Writer.Write(s"number of mine left : $mine2", 50, 50, Color.black, Color.gray, 20, wind)
@@ -134,6 +137,9 @@ object Game {
       var img : GraphicsBitmap = numberedCase(gameBoard(i)(j).numOfAdjacentMine)
       if (gameBoard(i)(j).flag) {
         img = numberedCase(10)
+      }
+      else if (gameBoard(i)(j).flagMIneOrNotMine) {
+        img = caseMineOrNotMine
       }
       else if(gameBoard(i)(j).isHide) {
          img = caseHide
