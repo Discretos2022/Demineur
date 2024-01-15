@@ -2,34 +2,34 @@
 import scala.io.StdIn.{readInt, readLine}
 import scala.util.Random
 
-object MinesweeperConsole extends App{
+object MinesweeperConsole extends App {
   //variable
-  var diff : Int = difficulties()
-  var game : Array[Array[Case]] = Array.ofDim(diff, diff)
-  var tryX : Int = 0
-  var tryY : Int = 0
-  var perdu : Boolean = false
-  var numOfMine:Int = 10;
+  var diff: Int = difficulties()
+  var game: Array[Array[Case]] = Array.ofDim(diff, diff)
+  var tryX: Int = 0
+  var tryY: Int = 0
+  var perdu: Boolean = false
+  var numOfMine: Int = 10;
 
   InitGame(tryX, tryY);
   printingGameBoard()
 
-  while(!perdu){
+  while (!perdu) {
     println("where do you want to play")
     print("X : ")
     tryX = readLine().toInt
     print("Y : ")
     tryY = readLine().toInt
-    if(tryX > diff || tryY > diff){
+    if (tryX > diff || tryY > diff) {
       println("error")
-    }else{
+    } else {
       println("flag? 1 : y, 0 : n")
       var flag: Int = readInt()
 
-      if (flag == 1){
-        playing(tryX-1, tryY-1, true)
-      }else{
-        playing(tryX-1, tryY-1)
+      if (flag == 1) {
+        playing(tryX - 1, tryY - 1, true)
+      } else {
+        playing(tryX - 1, tryY - 1)
       }
 
       printingGameBoard()
@@ -49,50 +49,50 @@ object MinesweeperConsole extends App{
     return diff
   }
 
-  def ending_condition() : Boolean = {
-    var winning : Boolean = false
-    if(perdu){
+  def ending_condition(): Boolean = {
+    var winning: Boolean = false
+    if (perdu) {
       winning = false
       println("perdu")
-    }else{
+    } else {
       winning = true
       println("gagné")
     }
     return winning
   }
 
-  def playing(x : Int, y : Int, f : Boolean = false) : Unit = {
+  def playing(x: Int, y: Int, f: Boolean = false): Unit = {
     game(x)(y).isHide = false
-    if(game(x)(y).isMine() && !f){
+    if (game(x)(y).isMine() && !f) {
       perdu = true
       ending_condition()
     }
-    else{
-      if(f){
+    else {
+      if (f) {
         game(x)(y).flag
       }
-      else if(game(x)(y).numOfAdjacentMine == 0)
+      else if (game(x)(y).numOfAdjacentMine == 0)
         DiscoverAdjacentCase(x, y);
     }
   }
 
-  def printingGameBoard() : Unit = {
-    for(i <- 0 until diff){
-      for(j <- 0 until diff){
+  def printingGameBoard(): Unit = {
+    for (i <- 0 until diff) {
+      for (j <- 0 until diff) {
         print(game(i)(j).toString() + "  ")
       }
       print("\n")
     }
   }
 
-  def DiscoverAdjacentCase(x: Int, y:Int): Unit = {
+  def DiscoverAdjacentCase(x: Int, y: Int): Unit = {
 
-    for(i <- x - 1 to x + 1) {
+    for (i <- x - 1 to x + 1) {
       for (j <- y - 1 to y + 1) {
 
-        if(i >= 0 && i < game.length && j >= 0 && j < game(0).length) {
+        if (i >= 0 && i < game.length && j >= 0 && j < game(0).length) {
 
-          if(game(i)(j).isHide){
+          if (game(i)(j).isHide) {
             game(i)(j).isHide = false;
             if (game(i)(j).numOfAdjacentMine == 0) {
               DiscoverAdjacentCase(i, j)
@@ -102,7 +102,8 @@ object MinesweeperConsole extends App{
       }
     }
   }
-  def InitGame(selectedX:Int, selectedY:Int): Unit = {
+
+  def InitGame(selectedX: Int, selectedY: Int): Unit = {
 
     println("where do you want to play")
     print("X : ")
@@ -112,22 +113,21 @@ object MinesweeperConsole extends App{
     if (X > diff || Y > diff)
       println("error")
 
-    for(i <- game.indices){
+    for (i <- game.indices) {
       for (j <- game(i).indices) {
         game(i)(j) = new Case();
       }
     }
 
-    for(r <- 1 to numOfMine){
+    for (r <- 1 to numOfMine) {
 
       var randomX = Random.nextInt(diff)
       var randomY = Random.nextInt(diff)
 
-      if(!game(randomX)(randomY).isMine() && randomX != selectedX && randomY != selectedY)
+      if (!game(randomX)(randomY).isMine() && randomX != selectedX && randomY != selectedY)
         game(randomX)(randomY).setMine()
       else
         setMine()
-
     }
 
     for (i <- game.indices) {
@@ -135,9 +135,7 @@ object MinesweeperConsole extends App{
         game(i)(j).CalculateAdjacentMine(i, j, game)
       }
     }
-
     playing(X, Y)
-
   }
 
   def setMine(): Unit = {
@@ -149,7 +147,5 @@ object MinesweeperConsole extends App{
       game(randomX)(randomY).setMine()
     else
       setMine()
-
   }
-
 }

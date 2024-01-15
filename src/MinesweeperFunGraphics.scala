@@ -10,7 +10,7 @@ object MinesweeperFunGraphics extends App {
   //variable
   val WIDTH: Int = 800
   val HEIGHT: Int = 600
-  val window: FunGraphics = new FunGraphics(WIDTH, HEIGHT, "TEST 1.0 - Minesweeper", false)
+  val window: FunGraphics = new FunGraphics(WIDTH, HEIGHT, "1.0 - Minesweeper", false)
   val audio = new Audio("/bomb.wav")
 
   //set the cursor transparent to set a new one
@@ -59,7 +59,6 @@ object MinesweeperFunGraphics extends App {
     }
     /// Draw The Game Cursor
     window.drawTransformedPicture(Input.cursorX + 16, Input.cursorY + 16, 0, 2, cursorImg)
-
     window.syncGameLogic(60)
   }
 }

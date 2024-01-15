@@ -16,7 +16,6 @@ object Save {
   }
 
   def ReadSave(): Unit = {
-
     try{
       val f = scala.io.Source.fromFile(file)
       val data: Array[String] = f.getLines().toArray
@@ -24,7 +23,6 @@ object Save {
 
       for (i: Int <- data.indices) {
         bestScores(i) = java.lang.Integer.parseInt(data(i))
-        println(Integer.getInteger(data(i)))
       }
     }
   }

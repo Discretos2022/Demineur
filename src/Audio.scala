@@ -1,5 +1,6 @@
 import javax.sound.sampled.{AudioSystem, Clip}
-class Audio (path : String) {
+
+class Audio(path: String) {
   var audioClip: Clip = _
 
   try {
@@ -28,7 +29,7 @@ class Audio (path : String) {
   }
 
   def stop(): Unit = {
-    try{
+    try {
       audioClip.stop()
     } catch {
       case e: Exception =>

@@ -132,6 +132,7 @@ object Game {
       Yvibr = random.nextInt(-1, 2)
     }
 
+    //animate the grid with the explosion
     for (i: Int <- gameBoard.indices;
          j: Int <- gameBoard(0).indices) {
       var x: Int = ((WIDTH - caseSide * scale * gameBoard.length) / 2 + (caseSide * scale) / 2 + i * scale * 16).toInt
