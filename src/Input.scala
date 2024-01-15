@@ -333,6 +333,8 @@ object Input {
 
   def canDoubleClickOnCase(x:Int, y:Int):Boolean = {
 
+    var flagAdjacent:Boolean = false;
+
     if (gameBoard(x)(y).flag)
       return false;
 
@@ -349,25 +351,36 @@ object Input {
     for(i:Int <- Xmin to Xmax){
       for (j: Int <- Ymin to Ymax) {
 
-        if (!gameBoard(i)(j).flag)
-          if(gameBoard(i)(j).isMine())
-            return false;
-
-        if (gameBoard(i)(j).flag)
-          if (!gameBoard(i)(j).isMine())
-            return false;
+        if(gameBoard(i)(j).flag)
+          flagAdjacent = true;
 
       }
     }
+
+    if (!flagAdjacent)
+      return false
 
     for (i: Int <- Xmin to Xmax) {
       for (j: Int <- Ymin to Ymax) {
 
-        if(!gameBoard(i)(j).isMine())
+        if (!gameBoard(i)(j).flag)
+          if (gameBoard(i)(j).isMine()) {
+
+            gameBoard(i)(j).isHide = false;
+            gameBoard(i)(j).explode(x, y, i, j);
+            positionExplosionX = i;
+            positionExplosionY = j;
+            mine = -1
+
+            return false
+          };
+
+        if (!gameBoard(i)(j).isMine())
           discoverAdjacentCase(i, j)
 
       }
     }
+
     return true;
   }
 

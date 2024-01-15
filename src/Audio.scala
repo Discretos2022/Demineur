@@ -13,10 +13,11 @@ class Audio (path : String) {
       e.printStackTrace()
   }
 
+  if (!audioClip.isOpen) audioClip.open()
+
   def play(): Unit = {
     // Open stream and play
     try {
-      if (!audioClip.isOpen) audioClip.open()
       audioClip.stop()
       audioClip.setMicrosecondPosition(0)
       audioClip.start()

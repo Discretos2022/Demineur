@@ -8,6 +8,8 @@ import java.awt.Color
 object Credit {
 
   var color: Float = 0;
+
+  // Display text of credit
   def display(wind: FunGraphics): Unit = {
 
     color += 0.01f;
