@@ -15,4 +15,8 @@ The main file is MineSweeperConsole and MineSweeperFungraphics, for starting the
 The window version is obviously more complex than the console version. It changes the window with the gamestate file (used in MinesweeperFungraphics). This allows you to switch to the game, menu or credit file. In several files we use different classes (Animation, Audio, Blast and Case) to make the game work.
 
 Here is some view of our game!
+
+The Menu :\
 <img width="599" alt="Screenshot 2024-01-15 160757" src="https://github.com/Discretos2022/Demineur/assets/89923918/3ae5a60b-f452-4a1b-a9ee-de83b5ef55ee">
+The game :\
+<img width="599" alt="Screenshot 2024-01-15 160840" src="https://github.com/Discretos2022/Demineur/assets/89923918/58f92c50-3862-4b28-bbfa-7887c644385f">
