@@ -5,5 +5,4 @@ object GameState {
   val Credit:String = "Credit"
 
   var State:String = "Menu";
-
 }
