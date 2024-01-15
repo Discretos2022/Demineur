@@ -10,6 +10,7 @@ F1 is for displaying the FPS
 F12 is for leaving the game
 
 THE CODE : \
+To install Fungraphics, right click on the file fungraphics.jar then "add a library" (on intelliJ)
 We have several files in this project.
 The main file is MineSweeperConsole and MineSweeperFungraphics, for starting the game in the console and in a window.
 The window version is obviously more complex than the console version. It changes the window with the gamestate file (used in MinesweeperFungraphics). This allows you to switch to the game, menu or credit file. In several files we use different classes (Animation, Audio, Blast and Case) to make the game work.
