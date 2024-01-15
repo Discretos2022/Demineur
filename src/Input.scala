@@ -57,15 +57,11 @@ object Input {
           else if (isIn(cursorX, cursorY, Menu.creditPosX, Menu.creditPosY, 128, 32)) {
             GameState.State = GameState.Credit;
           }
-
-
-
-          //Game.InitGame(diff)
         }
 
         case GameState.Game => {
 
-          /// Si la partie n'est pas terminée
+          /// If the game isn't finished
           if (ending() != 0 && ending() != 1) {
 
             for (i: Int <- gameBoard.indices;
@@ -91,14 +87,13 @@ object Input {
                     mine = -1
                   }
 
-                  /// Double Click
+                  // Double Click
                   if (DoubleClickTime < 30) { // 30 pour 0.5 second
-                    println("DOUBLE CLICK : " + canDoubleClickOnCase(i, j))
+                    canDoubleClickOnCase(i, j)
                   }
-
                 }
 
-                /// Si Click gauche
+                // If left click
                 else if (e.getButton == 3) {
                   if (initedMine)
                     if (gameBoard(i)(j).isHide) {
@@ -123,16 +118,14 @@ object Input {
                       if (gameBoard(i)(j).isMine() && gameBoard(i)(j).flag) {
                         mine -= 1
                       }
-                    };
+                    }
                 }
               }
             }
           }
         }
-
         case _ => GameState.State = GameState.State
       }
-
       DoubleClickTime = 0;
     }
   }
@@ -206,7 +199,7 @@ object Input {
     override def keyPressed(e: KeyEvent): Unit = {
 
       if (Game.AllMinesExplosed() || ending() != 0 || GameState.State != GameState.Game) {
-        if (e.getKeyCode == KeyEvent.VK_F12) {
+        if (e.getKeyCode == KeyEvent.VK_F12) { // quit is F12
           initedMine = false;
           GameState.State = GameState.Menu
           ticks = 0;
@@ -226,7 +219,6 @@ object Input {
           else
             FPS = false;
         }
-
         window.displayFPS(FPS)
         F1HasPressed = F1Pressed;
       }
@@ -254,16 +246,13 @@ object Input {
         gameBoard(x)(y).isHide = false
     }
     else {
-      for (i <- x - 1 to x + 1) {
-        for (j <- y - 1 to y + 1) {
-
-          if (i >= 0 && i < gameBoard.length && j >= 0 && j < gameBoard(0).length) {
-
-            if (gameBoard(i)(j).isHide && !gameBoard(i)(j).isMine()) {
-              gameBoard(i)(j).isHide = false;
-              if (gameBoard(i)(j).numOfAdjacentMine == 0 && !gameBoard(i)(j).isMine()) {
-                discoverAdjacentCase(i, j)
-              }
+      for (i <- x - 1 to x + 1;
+           j <- y - 1 to y + 1) {
+        if (i >= 0 && i < gameBoard.length && j >= 0 && j < gameBoard(0).length) {
+          if (gameBoard(i)(j).isHide && !gameBoard(i)(j).isMine()) {
+            gameBoard(i)(j).isHide = false;
+            if (gameBoard(i)(j).numOfAdjacentMine == 0 && !gameBoard(i)(j).isMine()) {
+              discoverAdjacentCase(i, j)
             }
           }
         }
@@ -296,7 +285,6 @@ object Input {
   }
 
   def setMine(): Unit = {
-
     var randomX = Random.nextInt(gameBoard.length)
     var randomY = Random.nextInt(gameBoard(0).length)
     if (!gameBoard(randomX)(randomY).isMine())
@@ -305,12 +293,11 @@ object Input {
       setMine()
   }
 
+  //for debug
   def printInstantOfPart(): Unit = {
-
     println("STATE OF PART (MINES) : \n")
-
-    for (j <- 0 until gameBoard(0).length) {
-      for (i <- 0 until gameBoard.length) {
+    for (j <- gameBoard(0).indices) {
+      for (i <- gameBoard.indices) {
         if (gameBoard(i)(j).isMine())
           print("X  ");
         else
@@ -322,11 +309,10 @@ object Input {
 
   def canDoubleClickOnCase(x: Int, y: Int): Boolean = {
 
-    var flagAdjacent:Boolean = false;
+    var flagAdjacent: Boolean = false;
 
     if (gameBoard(x)(y).flag)
       return false;
-
     var Xmin = x - 1;
     var Xmax = x + 1;
     var Ymin = y - 1;
@@ -337,36 +323,29 @@ object Input {
     if (Ymin < 0) Ymin = 0
     if (Ymax >= gameBoard(0).length) Ymax = gameBoard(0).length - 1
 
-    for (i: Int <- Xmin to Xmax) {
-      for (j: Int <- Ymin to Ymax) {
-
-        if(gameBoard(i)(j).flag)
-          flagAdjacent = true;
-
-      }
+    for (i: Int <- Xmin to Xmax;
+         j: Int <- Ymin to Ymax) {
+      if (gameBoard(i)(j).flag)
+        flagAdjacent = true;
     }
 
     if (!flagAdjacent)
       return false
 
-    for (i: Int <- Xmin to Xmax) {
-      for (j: Int <- Ymin to Ymax) {
+    for (i: Int <- Xmin to Xmax;
+         j: Int <- Ymin to Ymax) {
 
-        if (!gameBoard(i)(j).flag)
-          if (gameBoard(i)(j).isMine()) {
+      if (!gameBoard(i)(j).flag && gameBoard(i)(j).isMine()) {
+        gameBoard(i)(j).isHide = false;
+        gameBoard(i)(j).explode(x, y, i, j);
+        positionExplosionX = i;
+        positionExplosionY = j;
+        mine = -1
+        return false
+      };
 
-            gameBoard(i)(j).isHide = false;
-            gameBoard(i)(j).explode(x, y, i, j);
-            positionExplosionX = i;
-            positionExplosionY = j;
-            mine = -1
-
-            return false
-          };
-
-        if (!gameBoard(i)(j).isMine())
-          discoverAdjacentCase(i, j)
-      }
+      if (!gameBoard(i)(j).isMine())
+        discoverAdjacentCase(i, j)
     }
     return true;
   }
