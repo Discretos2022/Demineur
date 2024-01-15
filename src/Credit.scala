@@ -20,7 +20,7 @@ object Credit {
 
     Writer.Write("Graphic Designer : Natasha Landry, Joshua SIEDEL", 10, 150, Color.BLACK, Color.WHITE, 20, wind)
 
-    Writer.Write("Tester : Natasha Landry, Joshua SIEDEL, Luka SIEDEL", 10, 200, Color.BLACK, Color.WHITE, 20, wind)
+    Writer.Write("Tester : Natasha Landry, Joshua SIEDEL", 10, 200, Color.BLACK, Color.WHITE, 20, wind)
 
     Writer.Write("Micro-projet ISC HES-SO Valais-Wallis", 10, 250, Color.BLACK, Color.WHITE, 20, wind)
 
