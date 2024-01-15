@@ -1,14 +1,14 @@
-import Game.{blastNum, blasts, gameBoard}
+import Game._
 import MinesweeperFunGraphics.{audio, blastAnimation}
 import hevs.graphics.FunGraphics
 
 class Blast(PosX:Int, PosY:Int, caseX:Int, caseY:Int) {
 
-
   var animation:Animation = new Animation(blastAnimation)
 
-  //blastNum += 1;
   audio.play()
+
+  // Draw explode animation
   def draw(index:Int, window:FunGraphics): Unit = {
     animation.start()
 
@@ -19,10 +19,5 @@ class Blast(PosX:Int, PosY:Int, caseX:Int, caseY:Int) {
     if(!animation.end) {
       animation.draw(PosX, PosY, 3, window) // 3
     }
-
-
-
   }
-
-
 }

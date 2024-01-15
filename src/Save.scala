@@ -1,6 +1,6 @@
 import MinesweeperFunGraphics.bestScores
 
-import java.io.{BufferedOutputStream, FileOutputStream, PrintStream}
+import java.io.{BufferedOutputStream, FileNotFoundException, FileOutputStream, PrintStream}
 
 object Save {
 
@@ -26,6 +26,18 @@ object Save {
       for (i: Int <- data.indices) {
         bestScores(i) = java.lang.Integer.parseInt(data(i))
         println(Integer.getInteger(data(i)))
+      }
+    }
+    catch{
+      case e:FileNotFoundException => {
+        val f = new PrintStream(new BufferedOutputStream(new FileOutputStream(file)))
+        try {
+          for (i: Int <- 0 until 4) {
+            bestScores(i) = 216000;
+            f.println(216000)
+          }
+          f.close();
+        }
       }
     }
   }

@@ -15,6 +15,7 @@ class Audio (path : String) {
 
   if (!audioClip.isOpen) audioClip.open()
 
+  // Play sound
   def play(): Unit = {
     // Open stream and play
     try {
@@ -27,6 +28,7 @@ class Audio (path : String) {
     }
   }
 
+  // Stop sound
   def stop(): Unit = {
     try{
       audioClip.stop()
