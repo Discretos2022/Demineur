@@ -18,5 +18,7 @@ Here is some view of our game!
 
 The Menu :\
 <img width="599" alt="Screenshot 2024-01-15 160757" src="https://github.com/Discretos2022/Demineur/assets/89923918/3ae5a60b-f452-4a1b-a9ee-de83b5ef55ee">
+
+
 The game :\
 <img width="599" alt="Screenshot 2024-01-15 160840" src="https://github.com/Discretos2022/Demineur/assets/89923918/58f92c50-3862-4b28-bbfa-7887c644385f">
