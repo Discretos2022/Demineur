@@ -5,11 +5,11 @@ import hevs.graphics.utils.GraphicsBitmap
 // Used for animation
 class Animation(images: Array[GraphicsBitmap]) {
 
-  var enable:Boolean = false;
+  var enable: Boolean = false;
 
-  var timer:Int = 0;
-  var frame:Int = 0;
-  var end:Boolean = false;
+  var timer: Int = 0;
+  var frame: Int = 0;
+  var end: Boolean = false;
 
   // Start an animation
   def start(): Unit = {
@@ -22,9 +22,9 @@ class Animation(images: Array[GraphicsBitmap]) {
   }
 
   // Draw an animation
-  def draw(posX:Int, posY:Int, elapsedTime:Int, window: FunGraphics): Unit = {
+  def draw(posX: Int, posY: Int, elapsedTime: Int, window: FunGraphics): Unit = {
 
-    if(enable){
+    if (enable) {
       timer += 1;
 
       if (timer >= elapsedTime) {
@@ -32,10 +32,10 @@ class Animation(images: Array[GraphicsBitmap]) {
         timer = 0;
       }
 
-      if (frame >= images.length)
-        {end = true; frame = 0}
+      if (frame >= images.length) {
+        end = true; frame = 0
+      }
     }
     window.drawTransformedPicture((posX).toInt, (posY).toInt, 0, scale * frame * 0.25, images(frame))
   }
-
 }

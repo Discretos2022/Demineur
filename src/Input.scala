@@ -195,9 +195,7 @@ object Input {
   }
 
   var keyboard: KeyAdapter = new KeyAdapter() {
-
     override def keyPressed(e: KeyEvent): Unit = {
-
       if (Game.AllMinesExplosed() || ending() != 0 || GameState.State != GameState.Game) {
         if (e.getKeyCode == KeyEvent.VK_F12) { // quit is F12
           initedMine = false;
