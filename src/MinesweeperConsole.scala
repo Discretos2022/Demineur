@@ -85,7 +85,6 @@ object MinesweeperConsole extends App{
     }
   }
 
-
   def DiscoverAdjacentCase(x: Int, y:Int): Unit = {
 
     for(i <- x - 1 to x + 1) {
@@ -103,8 +102,6 @@ object MinesweeperConsole extends App{
       }
     }
   }
-
-
   def InitGame(selectedX:Int, selectedY:Int): Unit = {
 
     println("where do you want to play")

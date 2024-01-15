@@ -11,3 +11,5 @@ F12 is for quit the game
 
 THE CODE :
 We have several files in this project.
+The main file is MineSweeperConsole and MineSweeperFungraphics, for launching the game the console and in a window. 
+The window version is more complex than in console, obviously. It changes the window with the gamestate file.
