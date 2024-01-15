@@ -6,20 +6,20 @@ import java.awt.event.{MouseAdapter, MouseEvent}
 import java.util.Random
 import javax.sound.sampled.AudioSystem
 
-object MinesweeperFunGraphics extends App{
+object MinesweeperFunGraphics extends App {
   //variable
-  val WIDTH : Int = 800
+  val WIDTH: Int = 800
   val HEIGHT: Int = 600
-  val window : FunGraphics = new FunGraphics(WIDTH, HEIGHT, "TEST 1.0 - Minesweeper", false)
-
-  var cursorImg:GraphicsBitmap = new GraphicsBitmap("/cursor.png")
-  var tk:Toolkit = window.mainFrame.getToolkit();
-  var transparent:Cursor = tk.createCustomCursor(tk.getImage(""), new Point(), "trans");
+  val window: FunGraphics = new FunGraphics(WIDTH, HEIGHT, "TEST 1.0 - Minesweeper", false)
+  val audio = new Audio("/bomb.wav")
+  var cursorImg: GraphicsBitmap = new GraphicsBitmap("/cursor.png")
+  var tk: Toolkit = window.mainFrame.getToolkit();
+  var transparent: Cursor = tk.createCustomCursor(tk.getImage(""), new Point(), "trans");
   window.mainFrame.setCursor(transparent);
 
-  var random:Random = new Random();
+  var random: Random = new Random();
 
-  var backgroundImg:GraphicsBitmap = new GraphicsBitmap("/Background.png")
+  var backgroundImg: GraphicsBitmap = new GraphicsBitmap("/Background.png")
 
   var blastAnimation: Array[GraphicsBitmap] = Array.ofDim(9)
   for (i: Int <- 0 to 8) {
@@ -30,15 +30,15 @@ object MinesweeperFunGraphics extends App{
   window.addMouseMotionListener(Input.mouseMotion)
   window.setKeyManager(Input.keyboard)
 
-  var bestScores : Array[Int] = Array.ofDim(4)
+  var bestScores: Array[Int] = Array.ofDim(4)
   Save.ReadSave();
 
-  while(true)
+  while (true)
     gameLoop();
 
   def gameLoop(): Unit = {
 
-    window.frontBuffer.synchronized{
+    window.frontBuffer.synchronized {
 
       window.clear()
 

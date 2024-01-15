@@ -57,7 +57,7 @@ object Game {
       case 4 => gameBoard = Array.ofDim(25, 25)
                 mine = 130
                 mine2 = 130
-                scale = 1
+                scale = 1.2
       case _ => gameBoard = Array.empty
     }
     for (i: Int <- gameBoard.indices;

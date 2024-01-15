@@ -139,7 +139,7 @@ object MinesweeperConsole extends App{
       }
     }
 
-    playing(X, Y, false)
+    playing(X, Y)
 
   }
 
