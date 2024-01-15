@@ -1,7 +1,8 @@
 import Game.{blastNum, blasts, caseSide, counterEnable, distanceOfExlosion, ending, gameBoard, mine, mine2, numberedCase, positionExplosionX, positionExplosionY, scale, ticks}
-import Menu.{HEIGHT, WIDTH, diff, easySelected, hardSelected, hardcoreSelected, isIn, mediumSelected, posy}
+import Menu.{HEIGHT, WIDTH, colorDiff, creditSelected, diff, easySelected, hardSelected, hardcoreSelected, isIn, mediumSelected, posy}
 import MinesweeperFunGraphics.{cursorImg, gameLoop, window}
 
+import java.awt.Color
 import java.awt.event.{KeyAdapter, KeyEvent, MouseAdapter, MouseEvent, MouseMotionListener}
 import scala.Console.println
 import scala.io.StdIn.readLine
@@ -37,21 +38,33 @@ object Input {
           if (isIn(mouseX, mouseY, 120, posy, WIDTH, HEIGHT)) {
             //easy
             diff = 1
+            Game.InitGame(diff)
             GameState.State = GameState.Game;
           } else if (isIn(mouseX, mouseY, 310, posy, WIDTH, HEIGHT)) {
             //medium
             diff = 2
+            Game.InitGame(diff)
             GameState.State = GameState.Game;
           } else if (isIn(mouseX, mouseY, 490, posy, WIDTH, HEIGHT)) {
             //hard
             diff = 3
+            Game.InitGame(diff)
             GameState.State = GameState.Game;
           } else if (isIn(mouseX, mouseY, 670, posy, WIDTH, HEIGHT)) {
             //hardcore
             diff = 4
+            Game.InitGame(diff)
             GameState.State = GameState.Game;
           }
-          Game.InitGame(diff)
+
+          // button credit
+          else if (isIn(mouseX, mouseY, Menu.creditPosX, Menu.creditPosY, 128, 32)) {
+            GameState.State = GameState.Credit;
+          }
+
+
+
+          //Game.InitGame(diff)
         }
 
         case GameState.Game => {
@@ -122,7 +135,7 @@ object Input {
           }
         }
 
-        case _ => GameState.State = GameState.Game
+        case _ => GameState.State = GameState.State
       }
 
       DoubleClickTime = 0;
@@ -141,14 +154,24 @@ object Input {
       hardSelected = false;
       hardcoreSelected = false;
 
-      if (isIn(cursorX, cursorY, 120, posy, WIDTH, HEIGHT))
-        easySelected = true;
-      else if (isIn(cursorX, cursorY, 310, posy, WIDTH, HEIGHT))
-        mediumSelected = true;
-      else if (isIn(cursorX, cursorY, 490, posy, WIDTH, HEIGHT))
-        hardSelected = true;
-      else if (isIn(cursorX, cursorY, 670, posy, WIDTH, HEIGHT))
-        hardcoreSelected = true;
+      if (isIn(cursorX, cursorY, 120, posy, WIDTH, HEIGHT)) {
+        easySelected = true
+        colorDiff = Color.green
+      };
+      else if (isIn(cursorX, cursorY, 310, posy, WIDTH, HEIGHT)) {
+        mediumSelected = true
+        colorDiff = Color.YELLOW
+      };
+      else if (isIn(cursorX, cursorY, 490, posy, WIDTH, HEIGHT)) {
+        hardSelected = true
+        colorDiff = Color.ORANGE
+      };
+      else if (isIn(cursorX, cursorY, 670, posy, WIDTH, HEIGHT)) {
+        hardcoreSelected = true
+        colorDiff = Color.red
+      };
+      else if (isIn(cursorX, cursorY, Menu.creditPosX, Menu.creditPosY, 128, 32))
+        creditSelected = true;
     }
 
     override def mouseMoved(e: MouseEvent): Unit = {
@@ -160,15 +183,27 @@ object Input {
       mediumSelected = false;
       hardSelected = false;
       hardcoreSelected = false;
+      creditSelected = false;
+      colorDiff = Color.WHITE
 
-        if (isIn(cursorX, cursorY, 120, posy, WIDTH, HEIGHT))
-          easySelected = true;
-        else if (isIn(cursorX, cursorY, 310, posy, WIDTH, HEIGHT))
-          mediumSelected = true;
-        else if (isIn(cursorX, cursorY, 490, posy, WIDTH, HEIGHT))
-          hardSelected = true;
-        else if (isIn(cursorX, cursorY, 670, posy, WIDTH, HEIGHT))
-          hardcoreSelected = true;
+      if (isIn(cursorX, cursorY, 120, posy, WIDTH, HEIGHT)) {
+        easySelected = true
+        colorDiff = Color.green
+      };
+      else if (isIn(cursorX, cursorY, 310, posy, WIDTH, HEIGHT)) {
+        mediumSelected = true
+        colorDiff = Color.YELLOW
+      };
+      else if (isIn(cursorX, cursorY, 490, posy, WIDTH, HEIGHT)) {
+        hardSelected = true
+        colorDiff = Color.ORANGE
+      };
+      else if (isIn(cursorX, cursorY, 670, posy, WIDTH, HEIGHT)) {
+        hardcoreSelected = true
+        colorDiff = Color.red
+      };
+      else if (isIn(cursorX, cursorY, Menu.creditPosX, Menu.creditPosY, 128, 32))
+        creditSelected = true;
     }
   }
 
@@ -177,7 +212,7 @@ object Input {
 
     override def keyPressed(e: KeyEvent): Unit = {
 
-      if(Game.AllMinesExplosed() || ending() != 0)
+      if(Game.AllMinesExplosed() || ending() != 0 || GameState.State != GameState.Game) {
         if(e.getKeyCode == KeyEvent.VK_F12) {
           initedMine = false;
           GameState.State = GameState.Menu
@@ -186,6 +221,7 @@ object Input {
           counterEnable = false;
           blasts.clear();
         }
+      }
 
       if (e.getKeyCode == KeyEvent.VK_F1) {
 

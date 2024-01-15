@@ -18,4 +18,19 @@ object Writer {
 
   }
 
+  def Write2(text: String, x: Int, y: Int, font:String, backColor: Color, frontColor: Color, size: Int, window: FunGraphics): Unit = {
+
+    for (i <- -2 to 2) {
+      for (j <- -2 to 2) {
+
+        window.drawFancyString(x - i, y - j, text, font, 1, size, backColor, 0, 0, 0, 0, Color.GRAY, 0, frontColor, 0)
+
+      }
+    }
+
+    window.drawFancyString(x, y, text, font, 1, size, frontColor, 0, 0, 0, 0, Color.GRAY, 0, frontColor, 0)
+
+
+  }
+
 }

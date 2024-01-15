@@ -49,14 +49,14 @@ object MinesweeperFunGraphics extends App{
       GameState.State match {
 
         case GameState.Menu => {
-
           Menu.display(window)
-
-      }
-      case GameState.Game => {
-
+        }
+        case GameState.Game => {
           Game.update();
           Game.display(window)
+        }
+        case GameState.Credit => {
+          Credit.display(window)
         }
       }
 

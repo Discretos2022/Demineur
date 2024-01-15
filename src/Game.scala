@@ -35,6 +35,9 @@ object Game {
   var blasts:ArrayBuffer[Blast] = new ArrayBuffer[Blast]();
   var blastNum:Int = 0;
 
+  var bColor:Float = 0.5f;
+  var bColorVelocity:Float = .02f;
+
   var counterEnable:Boolean = false;
 
   def InitGame(difficult:Int): Unit = {
@@ -114,7 +117,10 @@ object Game {
   }
   def display(wind: FunGraphics): Unit = {
 
-    println(mine)
+    bColor += bColorVelocity;
+
+    if (bColor < 0.5f) { bColor = 0.5f; bColorVelocity *= -1}
+    else if (bColor > 1) { bColor = 1f; bColorVelocity *= -1}
 
     //Writer.Write("TIME : " + hours + "h " + minute + "min " + second + "s", 600, 50, Color.black, Color.white, 20, wind)
     Writer.Write("TIME : " + GetTime(ticks), 600, 50, Color.black, Color.white, 20, wind)
@@ -157,7 +163,8 @@ object Game {
 
     ending() match {
       case 1 => //wind.drawTransformedPicture(0, 0, 0, 2, backgroundEndGame)
-                wind.drawFancyString(WIDTH/2-100, HEIGHT/2, "YOU WON!", Color.GREEN, 40)
+                //wind.drawFancyString(WIDTH/2-100, HEIGHT/2, "YOU WON!", Color.GREEN, 40)
+                Writer.Write("YOU WON!", WIDTH/2-100, HEIGHT/2, Color.BLACK, Color.getHSBColor(0.4f, 1, bColor), 40, wind)
                 counterEnable = false
                 if (bestScores(diff - 1) > ticks || bestScores(diff-1) == 0) {
                   bestScores(diff - 1) = ticks
@@ -166,7 +173,8 @@ object Game {
                 if(AllMinesExplosed())
                   Writer.Write("PRESS <F12> TO RETURN MAIN MENU", 5, 600 - 5, Color.BLACK, Color.WHITE, 15, wind)
       case 0 => //wind.drawPicture(0, 0, backgroundEndGame)
-                wind.drawFancyString(WIDTH/2-100, HEIGHT/2, "YOU LOSE!", Color.RED, 40)
+                //wind.drawFancyString(WIDTH/2-170, HEIGHT/2, "YOU EXPLODED !", Color.RED, 40)
+                Writer.Write("YOU EXPLODED !", WIDTH/2-170, HEIGHT/2, Color.BLACK, Color.getHSBColor(0, 1, bColor), 40, wind)
                 counterEnable = false
                 if (AllMinesExplosed())
                   Writer.Write("PRESS <F12> TO RETURN MAIN MENU", 5, 600 - 5, Color.BLACK, Color.WHITE, 15, wind)
