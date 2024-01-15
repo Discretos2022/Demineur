@@ -24,7 +24,7 @@ object Credit {
 
     Writer.Write("Micro-projet ISC HES-SO Valais-Wallis", 10, 250, Color.BLACK, Color.WHITE, 20, wind)
 
-    Writer.Write2("Infiteright ∞ 2024 SIEDEL™  ", 650, 600 - 15, "Consolas", Color.getHSBColor(color, 1, 1), Color.getHSBColor(color + 0.5f, 1, 1), 20, wind)
+    Writer.Write2("Infiniteright ∞ 2024 SIEDEL™  ", 650, 600 - 15, "Consolas", Color.getHSBColor(color, 1, 1), Color.getHSBColor(color + 0.5f, 1, 1), 20, wind)
 
     Writer.Write("PRESS <F12> TO RETURN MAIN MENU", 5, 600 - 5, Color.BLACK, Color.WHITE, 15, wind)
   }
