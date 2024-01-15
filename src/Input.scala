@@ -1,6 +1,6 @@
 import Game.{blasts, caseSide, counterEnable, distanceOfExlosion, ending, gameBoard, mine, mine2, positionExplosionX, positionExplosionY, scale, ticks}
 import Menu.{HEIGHT, WIDTH, colorDiff, creditSelected, diff, easySelected, hardSelected, hardcoreSelected, isIn, mediumSelected, posy}
-import MinesweeperFunGraphics.window
+import MinesweeperFunGraphics.{inGameMusic, mainMenuMusic, window}
 
 import java.awt.Color
 import java.awt.event.{KeyAdapter, KeyEvent, MouseAdapter, MouseEvent, MouseMotionListener}
@@ -36,21 +36,29 @@ object Input {
             diff = 1
             Game.InitGame(diff)
             GameState.State = GameState.Game;
+            mainMenuMusic.audioClip.stop();
+            inGameMusic.audioClip.loop(-1)
           } else if (isIn(cursorX, cursorY, 310, posy, WIDTH, HEIGHT)) {
             //medium
             diff = 2
             Game.InitGame(diff)
             GameState.State = GameState.Game;
+            mainMenuMusic.audioClip.stop();
+            inGameMusic.audioClip.loop(-1)
           } else if (isIn(cursorX, cursorY, 490, posy, WIDTH, HEIGHT)) {
             //hard
             diff = 3
             Game.InitGame(diff)
             GameState.State = GameState.Game;
+            mainMenuMusic.audioClip.stop();
+            inGameMusic.audioClip.loop(-1)
           } else if (isIn(cursorX, cursorY, 670, posy, WIDTH, HEIGHT)) {
             //hardcore
             diff = 4
             Game.InitGame(diff)
             GameState.State = GameState.Game;
+            mainMenuMusic.audioClip.stop();
+            inGameMusic.audioClip.loop(-1)
           }
 
           // button credit
@@ -83,7 +91,7 @@ object Input {
                     gameBoard(i)(j).explode(x, y, i, j);
                     positionExplosionX = i;
                     positionExplosionY = j;
-                    Save.WriterSave();
+                    inGameMusic.audioClip.stop()
                     mine = -1
                   }
 
@@ -204,6 +212,8 @@ object Input {
           distanceOfExlosion = 0;
           counterEnable = false;
           blasts.clear();
+          mainMenuMusic.audioClip.loop(-1)
+          inGameMusic.audioClip.stop()
         }
       }
 
@@ -339,6 +349,7 @@ object Input {
         positionExplosionX = i;
         positionExplosionY = j;
         mine = -1
+        inGameMusic.audioClip.stop()
         return false
       };
 

@@ -11,7 +11,11 @@ object MinesweeperFunGraphics extends App {
   val WIDTH: Int = 800
   val HEIGHT: Int = 600
   val window: FunGraphics = new FunGraphics(WIDTH, HEIGHT, "1.0 - Minesweeper", false)
+
+  // Init audio file
   val audio = new Audio("/bomb.wav")
+  val mainMenuMusic = new Audio("/mainMenu.wav")
+  val inGameMusic = new Audio("/inGame.wav")
 
   //set the cursor transparent to set a new one
   var cursorImg: GraphicsBitmap = new GraphicsBitmap("/cursor.png")
@@ -33,6 +37,9 @@ object MinesweeperFunGraphics extends App {
 
   var bestScores: Array[Int] = Array.ofDim(4)
   Save.ReadSave();
+
+  // loop this music
+  mainMenuMusic.audioClip.loop(-1)
 
   while (true)
     gameLoop();
