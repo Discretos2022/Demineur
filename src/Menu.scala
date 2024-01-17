@@ -66,7 +66,14 @@ object Menu {
     }
 
     if (numberHighscore >= 0) {
-      Writer.Write("25x25 grid | 130 mines", 315, 400, Color.BLACK, Color.WHITE, 20, wind)
+      if(numberHighscore == 0)
+        Writer.Write("10x10 grid | 10 mines", 315, 400, Color.BLACK, Color.WHITE, 20, wind)
+      else if(numberHighscore == 1)
+        Writer.Write("15x15 grid | 40 mines", 315, 400, Color.BLACK, Color.WHITE, 20, wind)
+      else if(numberHighscore == 2)
+        Writer.Write("20x20 grid | 75 mines", 315, 400, Color.BLACK, Color.WHITE, 20, wind)
+      else if(numberHighscore == 3)
+        Writer.Write("25x25 grid | 130 mines", 315, 400, Color.BLACK, Color.WHITE, 20, wind)
       Writer.Write("Best score : " + Game.GetTime(bestScores(numberHighscore)), 315, 430, Color.BLACK, Color.WHITE, 20, wind)
     }
     if (creditSelected) {

@@ -283,7 +283,7 @@ object Input {
       if (!gameBoard(randomX)(randomY).isMine() && randomX != selectedX && randomY != selectedY)
         gameBoard(randomX)(randomY).setMine()
       else
-        setMine()
+        setMine(selectedX, selectedY)
     }
     for (i <- gameBoard.indices) {
       for (j <- gameBoard(i).indices) {
@@ -292,13 +292,13 @@ object Input {
     }
   }
 
-  def setMine(): Unit = {
+  def setMine(selectedX:Int, selectedY:Int): Unit = {
     var randomX = Random.nextInt(gameBoard.length)
     var randomY = Random.nextInt(gameBoard(0).length)
-    if (!gameBoard(randomX)(randomY).isMine())
+    if (!gameBoard(randomX)(randomY).isMine() && randomX != selectedX && randomY != selectedY)
       gameBoard(randomX)(randomY).setMine()
     else
-      setMine()
+      setMine(selectedX, selectedY)
   }
 
   //for debug
