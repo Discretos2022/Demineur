@@ -317,7 +317,8 @@ object Input {
 
   def canDoubleClickOnCase(x: Int, y: Int): Boolean = {
 
-    var flagAdjacent: Boolean = false;
+    //var flagAdjacent: Boolean = false;
+    var numberOfFlagAdjacent:Int = 0;
 
     if (gameBoard(x)(y).flag)
       return false;
@@ -334,10 +335,10 @@ object Input {
     for (i: Int <- Xmin to Xmax;
          j: Int <- Ymin to Ymax) {
       if (gameBoard(i)(j).flag)
-        flagAdjacent = true;
+        numberOfFlagAdjacent += 1;
     }
 
-    if (!flagAdjacent)
+    if (numberOfFlagAdjacent < gameBoard(x)(y).numOfAdjacentMine)
       return false
 
     for (i: Int <- Xmin to Xmax;
